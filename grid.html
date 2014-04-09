@@ -19,11 +19,11 @@ of it requires the prior written permission of Adobe.
 %>
 <%
 --[[ Define some variables to make locating other resources easier.]]
-     
+
      local mySize = "thumb"
      local others = "content"
      local theRoot = "."
-     
+
 %>
 
 <% --[[ Include the page header]] %>
@@ -35,6 +35,10 @@ of it requires the prior written permission of Adobe.
                 <img src="$others/bin/images/thumb/<%= image.exportFilename %>.jpg" id="<%= image.imageID %>" class="thumb" />
             </a>
     </lr:GridPhotoCell>
+    <lr:GridRowEnd>
+	    <div class="clear">
+	    </div>
+        </lr:GridRowEnd>
 </lr:ThumbnailGrid>
 
 <% if numGridPages > 1 then %>

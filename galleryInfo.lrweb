@@ -47,6 +47,9 @@ return {
 		
 		["nonCSS.imageBase"] = "content",	-- when translated to html, the images will be in a root folder 'content'
 		
+		["nonCSS.numCols"] = 3,
+		["nonCSS.numRows"] = 3,
+		
 	},
 	
 	views = function( controller, f )
