@@ -32,7 +32,7 @@ return {
 	
 	model = {
 		
-		["metadata.siteTitle.value"] = "Moving Target Photography (Abc)", -- default value for the siteTitle variable
+		["metadata.siteTitle.value"] = "Moving Target Photography", -- default value for the siteTitle variable
 		["appearance.sitetitle.cssID"] = "#sitetitle",
 
 		["nonCSS.tracking"] = false,
@@ -42,13 +42,13 @@ return {
 		
 		["photoSizes.thumb.height"] = 150, -- height of the thumbnail image used in grid.html
 		["photoSizes.thumb.width"] = 150, -- width of the thumbnail image used in grid.html
-		["photoSizes.thumb.metadataExportMode"] = "copyright", -- add copyright to images when published
+		["photoSizes.thumb.metadataExportMode"] = "all",
 		["appearance.thumb.cssID"] = ".thumb", -- CSS Id.  In grid.html the images with id 'thumb' will be set with the thumb.height and thumb.width defined above.
 		
 		["nonCSS.imageBase"] = "content",	-- when translated to html, the images will be in a root folder 'content'
 		
-		["nonCSS.numCols"] = 3,
-		["nonCSS.numRows"] = 3,
+		["nonCSS.numCols"] = 5,
+		["nonCSS.numRows"] = 5,
 		
 	},
 	

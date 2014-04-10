@@ -31,13 +31,19 @@ of it requires the prior written permission of Adobe.
 
 <lr:ThumbnailGrid>
 	<lr:GridPhotoCell>
-            <a href="$others/<%= image.exportFilename %>_large.html">
-                <img src="$others/bin/images/thumb/<%= image.exportFilename %>.jpg" id="<%= image.imageID %>" class="thumb" />
-            </a>
-    </lr:GridPhotoCell>
-    <lr:GridRowEnd>
-	    <div class="clear">
-	    </div>
+	          <div class="thumbnail">
+	            <a href="$others/<%= image.exportFilename %>_large.html">
+	               <div style="margin-left:<%= 80 - math.floor( image.renditions.thumb.width / 2 ) %>px; margin-top:<%= 80 - math.floor( image.renditions.thumb.height / 2 ) %>px;">
+	                  <img src="$others/bin/images/thumb/<%= image.exportFilename %>.jpg" id="ID<%= image.imageID %>_thumb" alt="" class="thumb" />
+	               </div>
+	            </a></div>
+	        </lr:GridPhotoCell>
+	        <lr:GridEmptyCell>
+	          <div class="emptyThumbnail"></div>
+	        </lr:GridEmptyCell>
+	        <lr:GridRowEnd>
+	          <div class="clear">
+	          </div>
         </lr:GridRowEnd>
 </lr:ThumbnailGrid>
 
