@@ -1,73 +1,479 @@
---[[
 
-galleryInfo.lrweb
-This file specifies the development environment within Lightroom.
-For this sample we have defined sizes for large and thumbnail images which will be used in the large.html
-and grid.html pages when displaying the selected photos.
+local warningFontName, warningFontSize
+if MAC_ENV then
+	warningFontName = LOC "$$$/locale_metric/Mac/Panel/Content/Italic/FontName=MyriadWebPro-Italic"
+	warningFontSize = LOC "$$$/locale_metric/Mac/Panel/SmallBodyText/SmallFontSize=11"
+else
+	warningFontName = LOC "$$$/locale_metric/Win/Panel/Content/Italic/FontName=MyriadWebPro-Italic"
+	warningFontSize = LOC "$$$/locale_metric/Win/Panel/SmallBodyText/SmallFontSize=10"
+end
 
-The views table creates the panel entries available within the Lightroom UI.  For this sample the
-user can dynamically edit the site title of the website before it is published.
+local warningFont = {
+	name = warningFontName,
+	size = tonumber( warningFontSize ),
+}
 
---------------------------------------------------------------------------------
-
-ADOBE SYSTEMS INCORPORATED
- Copyright 2008 Adobe Systems Incorporated
- All Rights Reserved.
-
-NOTICE: Adobe permits you to use, modify, and distribute this file in accordance
-with the terms of the Adobe license agreement accompanying it. If you have received
-this file from a source other than Adobe, then your use, modification, or distribution
-of it requires the prior written permission of Adobe.
-
-]]
-
-
+local useMultiBind = false
 return {
 	LrSdkVersion = 2.0,
 	LrSdkMinimumVersion = 2.0, -- minimum SDK version required by this plugin
 
-	title = "MTP Web Gallery (A)",
-	id = "photos.movingtarget.a", -- unique id for this plug-in
-	galleryType = "lua", -- lua or flash
-	
+	title = LOC "$$$/AgWPG/Templates/HTML/Title=Lightroom/MTP HTML Gallery",
+	id = "com.moving-target-photos.v2014",
+	galleryType = "lua",
+	maximumGallerySize = 50000,
+	supportsLiveUpdate = false,
+
 	model = {
-		
-		["metadata.siteTitle.value"] = "Moving Target Photography (Abc)", -- default value for the siteTitle variable
+		["photoSizes.large.directory"] = "images/large",
+		["photoSizes.large.cropMode"] = "normal",
+		["photoSizes.large.height"] = useMultiBind and 450
+			or function() return photoSizes.large.width end,
+		["photoSizes.large.maxHeight"] = 2701,
+		["photoSizes.large.maxWidth"] = 2701,
+		["photoSizes.large.metadataExportMode"] = useMultiBind and "copyright"
+			or function() return photoSizes.thumb.metadataExportMode end,
+		["photoSizes.large.width"] = 950,
+		["photoSizes.large.height"] = 650,
+		["photoSizes.thumb.directory"] =  "images/thumb",
+		["photoSizes.thumb.cropMode"] = "normal",
+		["photoSizes.thumb.height"] = 130,
+		["photoSizes.thumb.metadataExportMode"] = "copyright",
+		["photoSizes.thumb.width"] = 130,
+		["photoSizes.tracking"] = false,
+		["appearance.body.background-color"] = "#4c4c4c",
+		["appearance.body.cssID"] = "body",
+		["appearance.borderBottom.border-bottom"] = function()
+			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+		end,
+		["appearance.borderBottom.cssID"] = ".borderBottom",
+		["appearance.borderBottomRight.border-bottom"] = function()
+			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+		end,
+		["appearance.borderBottomRight.border-right"] = function()
+			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+		end,
+		["appearance.borderBottomRight.cssID"] = ".borderBottomRight",
+		["appearance.borderRight.border-right"] = function()
+			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+		end,
+		["appearance.borderRight.cssID"] = ".borderRight",
+		["appearance.borderRightDotted.border-right"] = function()
+			return string.format( "1px dotted %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+		end,
+		["appearance.borderRightDotted.cssID"] = ".borderRightDotted",
+		["appearance.borderTopLeft.border-left"] = function()
+			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+		end,
+		["appearance.borderTopLeft.border-top"] = function()
+			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+		end,
+		["appearance.borderTopLeft.cssID"] = ".borderTopLeft",
+		["appearance.caption.color"] = "#b3b3b3",
+		["appearance.caption.cssID"] = ".caption",
+		["appearance.contact.border-bottom"] = function()
+			return  nonCSS.showSectionBorder and string.format("1px dotted %s", LrColorToWebColor( nonCSS.sectionBorderColor ) ) or "none" 
+		end,
+		["appearance.contact.cssID"] = "#stage, #stage2",
+		["appearance.contactInfo.cssID"] = "#liveUpdateContactInfo",
+		["appearance.detailText.color"] = "#b3b3b3",
+		["appearance.detailText.cssID"] = ".detailText",
+		["appearance.emptyThumbnail.background-color"] = useMultibind and "#949494" or function() return nonCSS.cellColor end,
+		["appearance.emptyThumbnail.cssID"] = ".emptyThumbnail",
+		["appearance.itemNumber.color"] = "#9c9c9c",
+		["appearance.itemNumber.cssID"] = ".itemNumber",
+		["appearance.itemNumber.display"] = "inherit",
+		["appearance.logo.cssID"] = ".logo",
+		["appearance.logo.display"] = true,
+		["appearance.pagination.cssID"] = ".paginationLinks, .pagination, #liveUpdatePagination",
+		["appearance.preview.border"] = function()
+			return nonCSS.showImageBorderLarge and string.format( "%dpx solid %s", nonCSS.imageBorderWidth, LrColorToWebColor( nonCSS.largeImageBorderColor ) ) or "none" 
+		end,
+		["appearance.preview.cssID"] = ".preview",
+		["appearance.previewFull.background-color"] = "#666666",
+		["appearance.previewFull.cssID"] = "#previewFull",
+		["appearance.previewFull.width"] = function()
+			return string.format( "%dpx", math.max( nonCSS.numCols * 160 + 2, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
+		end,
+		["appearance.liveUpdateImageSize.cssID"] = "#previewImage",
+		["appearance.liveUpdateImageSize.maxSize"] = useMultiBind and 450
+			or function()
+				return photoSizes.large.width
+			end,
+		["appearance.siteTitle.cssID"] = "#liveUpdateSiteTitle",
+		["appearance.sitetitle.border-bottom"] = function()
+			return  nonCSS.showSectionBorder and string.format("1px dotted %s", LrColorToWebColor( nonCSS.sectionBorderColor ) ) or "none" 
+		end,
 		["appearance.sitetitle.cssID"] = "#sitetitle",
-
-		["nonCSS.tracking"] = false,
-
-		["photoSizes.large.width"] = 950, -- width of the large image as used in large.html
-		["photoSizes.large.height"] = 650, -- height of the large image as used in large.html
-		
-		["photoSizes.thumb.height"] = 150, -- height of the thumbnail image used in grid.html
-		["photoSizes.thumb.width"] = 150, -- width of the thumbnail image used in grid.html
-		["photoSizes.thumb.metadataExportMode"] = "copyright", -- add copyright to images when published
-		["appearance.thumb.cssID"] = ".thumb", -- CSS Id.  In grid.html the images with id 'thumb' will be set with the thumb.height and thumb.width defined above.
-		
-		["nonCSS.imageBase"] = "content",	-- when translated to html, the images will be in a root folder 'content'
-		
+		["appearance.stage2.cssID"] = "#stage2",
+		["appearance.stage2.width"] = function()
+			return string.format( "%dpx", math.max( nonCSS.numCols * 161 + 1, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
+		end,
+		["appearance.stage.cssID"] = "#stage",
+		["appearance.stage.width"] = function()
+			return string.format( "%dpx", nonCSS.numCols * 161 + 1 ) 
+		end,
+		["appearance.textColor.color"] = "#b3b3b3",
+		["appearance.textColor.cssID"] = ".textColor",
+		["appearance.thumb.border"] = function()
+			return nonCSS.showImageBorderThumb and string.format( "1px solid %s", LrColorToWebColor( nonCSS.thumbBorderColor ) ) or "none" 
+		end,
+		["appearance.thumb.cssID"] = ".thumb",
+		["appearance.thumbnail.background-color"] = useMultiBind and "#949494"
+			or function() return nonCSS.cellColor end,
+		["appearance.thumbnail.cssID"] = ".thumbnail",
+		["appearance.thumbnailHover.background-color"] = useMultiBind and "#a1a1a1"
+			or function() return nonCSS.cellRolloverColor end,
+		["appearance.thumbnailHover.cssID"] = ".selectedThumbnail, .thumbnail:hover",
+		["appearance.winDropShadows.cssID"] = ".thumb, .preview",
+		["appearance.winDropShadows.filter"] = function()
+			return  nonCSS.dropShadows == false and "none" or nil 
+		end,
+		["appearance.wrapper_large.cssID"] = "#wrapper_large",
+		["appearance.wrapper_large.width"] = function()
+			return string.format( "%dpx", math.max( nonCSS.numCols * 161 + 1, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
+		end,
+		["appearance.wrapper_thumb.cssID"] = "#wrapper_thumb",
+		["appearance.wrapper_thumb.width"] = function()
+			return string.format( "%dpx", nonCSS.numCols * 161 + 1 ) 
+		end,
+		["lightroomApplication.identityPlateExport"] = "(main)",
+		["lightroomApplication.jpegQuality"] = 70,
+		["lightroomApplication.sizeBeingViewed"] = "thumb",
+		["lightroomApplication.useWatermark"] = true,
+		["lightroomApplication.watermarkID"] = "",
+		["lightroomApplication.outputSharpeningOn"] = true,
+		["lightroomApplication.outputSharpening"] = 2,
+		["metadata.contactInfo.link"] = {
+			value = LOC "$$$/AgWPG/Templates/HTML/Defaults/ContactLink=mailto:user@domain",
+			metadata = { [ "ag:dataType" ] = "webLink" },
+		},
+		["metadata.contactInfo.value"] = LOC "$$$/AgWPG/Templates/HTML/DefaultValues/properties/ContactInfo=Contact Name",
+		["metadata.groupDescription.value"] = LOC "$$$/AgWPG/Templates/HTML/DefaultValues/ExampleGroupDescription=Web Photo Gallery created by Adobe Lightroom.",
+		["metadata.groupTitle.value"] = LOC "$$$/AgWPG/Templates/HTML/DefaultValues/ExampleGroupTitle=My Photographs",
+		["metadata.homePage.value"] = {
+			value = "index.html",
+			metadata = { [ "ag:dataType" ] = "webLink" },
+		},
+		["metadata.siteTitle.value"] = LOC "$$$/AgWPG/Templates/HTML/DefaultValues/properties/SiteTitle=Site Title",
+		["nonCSS.cellBorderColor"] = "#787878",
+		["nonCSS.cellColor"] = "#949494",
+		["nonCSS.cellRolloverColor"] = "#a1a1a1",
+		["nonCSS.dropShadows"] = true,
+		["nonCSS.identityPlateAbsolutePath"] = "",
+		["nonCSS.imageBase"] = "content",
+		["nonCSS.imageBorderWidth"] = 1,
+		["nonCSS.largeImageBorderColor"] = "#000000",
 		["nonCSS.numCols"] = 3,
 		["nonCSS.numRows"] = 3,
-		
+		["nonCSS.sectionBorderColor"] = "#7F7F7F",
+		["nonCSS.showImageBorderLarge"] = true,
+		["nonCSS.showImageBorderThumb"] = true,
+		["nonCSS.showSectionBorder"] = true,
+		["nonCSS.showKuler"] = false,
+		["nonCSS.thumbBorderColor"] = "#000000",
+		["nonCSS.tracking"] = false,
+		["perImageSetting.description"] = {
+			enabled = true,
+			value = "{{com.adobe.caption}}",
+			title = LOC "$$$/WPG/HTML/CSS/properties/ImageCaption=Caption",
+		},
+		["perImageSetting.title"] = {
+			enabled = true,
+			value = "{{com.adobe.title}}",
+			title = LOC "$$$/WPG/HTML/CSS/properties/ImageTitle=Title",
+		},
 	},
+
 	
 	views = function( controller, f )
 		local LrView = import "LrView"
 		local bind = LrView.bind
+		-- doesn't work with undo yet
 		local multibind = f.multibind
-		return {
-			-- this panel will appear in the Lightroom UI to enable a user to dynamically change the site title from the application without modifying any of this code.
+
+		return { 
+
 			labels = f:panel_content {
 				bindToObject = controller,
 				f:subdivided_sections {
 					f:labeled_text_input  {
-						title = "MySample",
+						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/SiteTitle=Site Title",
 						value = bind "metadata.siteTitle.value",
+						max_length = 500,
+					},
+					f:labeled_text_input  {
+						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/GroupTitle=Collection Title",
+						value = bind "metadata.groupTitle.value",
+						max_length = 500,
+					},
+					f:labeled_text_input  {
+						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/GroupDescription=Collection Description",
+						value = bind "metadata.groupDescription.value",
+					},
+				},
+				f:subdivided_sections {
+					f:labeled_text_input  {
+						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/ContactInfo=Contact Info",
+						value = bind "metadata.contactInfo.value",
+					},
+					f:labeled_text_input  {
+						title = LOC "$$$/AgWPG/Templates/HTML/link=Web or Mail Link",
+						value = bind "metadata.contactInfo.link",
+						wraps = false,
+					},
+				},
+				f:subdivided_sections {
+					f:header_section {
+						f:checkbox_row {
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/IdentityPlate=Identity Plate",
+							value = bind "appearance.logo.display",
+						},
+					},
+					f:identity_plate {
+						value = bind "lightroomApplication.identityPlateExport",
+						enabled = bind "appearance.logo.display",
+					},
+					f:labeled_text_input {
+						title = LOC "$$$/AgWPG/Templates/HTML/IdentityPlate/Link=Web or Mail Link",
+						value = bind "metadata.homePage.value",
+						wraps = false,
+					},
+				},
+			},
+			colorPalette = f:panel_content {
+				bindToObject = controller,
+				f:subdivided_sections {
+					f:color_content_column {
+						f:label_and_color_row {
+							color = bind "appearance.textColor.color",
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/TextColor=Text",
+						},
+						f:label_and_color_row {
+							color = bind "appearance.detailText.color",
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/DetailTextColor=Detail Text",
+						},
+					},
+					f:color_content_column {
+						f:label_and_color_row {
+							color = bind "appearance.body.background-color",
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/BackgroundColors=Background",
+						},
+						f:label_and_color_row {
+							color = bind "appearance.previewFull.background-color",
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/DetailMatteColor=Detail Matte",
+						},
+					},
+					f:color_content_column {
+						f:label_and_color_row {
+							color = useMultiBind and multibind {
+								"nonCSS.cellColor",
+								"appearance.emptyThumbnail.background-color",
+								"appearance.thumbnail.background-color",
+							}
+							or bind "nonCSS.cellColor",
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/CellsStatic=Cells",
+						},
+						f:label_and_color_row {
+							color = useMultiBind and multibind {
+								"nonCSS.cellRolloverColor",
+								"appearance.thumbnailHover.background-color",
+							}
+							or bind "nonCSS.cellRolloverColor",
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/CellRollover=Rollover",
+						},
+						f:label_and_color_row {
+							color = bind "nonCSS.cellBorderColor",
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/GridLines=Grid Lines",
+						},
+						f:label_and_color_row {
+							color = bind "appearance.itemNumber.color",
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/Numbers=Numbers",
+						},
+					},
+				},
+			},
+			appearanceConfiguration = f:panel_content {
+				bindToObject = controller,
+				f:subdivided_sections {
+					f:header_section_label {
+						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Appearance/Common=Common Settings",
+					},
+					f:content_section {
+						f:checkbox_row {
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Checkbox/ShowDropShadows=Add Drop Shadow to Photos",
+							value = bind "nonCSS.dropShadows",
+						},
+					},
+					f:content_section {
+						f:checkbox_and_color_row {
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Checkbox/SectionBorders=Section Borders",
+							enabled = bind "nonCSS.showSectionBorder",
+							color = bind "nonCSS.sectionBorderColor",
+						},
+					},
+				},
+				f:subdivided_sections {
+					f:header_section {
+						f:static_text  {
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/GridPages=Grid Pages",
+							place_vertical = 0.5,
+							-- SPAM : this should probably be default on static_text
+						},
+						f:warning_icon {
+							visibility = {
+								key = "lightroomApplication.sizeBeingViewed",
+								whenNotEqual = "thumb",
+							},
+							tooltip = LOC "$$$/AgWPG/Templates/HTML/Panel/WarningIcons/RequiresThumb=Changes to Grid Pages settings aren't currently visible.  Click in the large image to return to the grid page.",
+						},
+					},
+					f:content_column {
+						f:row_column_picker {
+							fill_horizontal = 1,
+							rows = bind "nonCSS.numRows",
+							columns = bind "nonCSS.numCols",
+							max_rows = 5,
+							max_columns = 8,
+							min_rows = 3,
+							min_columns = 3,
+							tooltip = LOC "$$$/AgWPG/Views/HTML/Panel/RowColumnPicker/InstructionText=Click anywhere in the grid to set dimensions.",
+							fill_horizontal=1,
+						},
+					},
+					f:content_section {
+						f:checkbox_row {
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Checkbox/ShowCellNumbers=Show Cell Numbers",
+							value = bind "appearance.itemNumber.display",
+						},
+					},
+					WPGPanelUI.column {
+						margin_vertical = 8,
+						margin_horizontal = 10,
+							-- SPAM these margins shouldn't be specified here
+						f:checkbox_and_color_row {
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Checkbox/ShowImageBorder=Photo Borders",
+							enabled = bind "nonCSS.showImageBorderThumb",
+							color = bind "nonCSS.thumbBorderColor",
+						},
+					},
+				},
+				f:subdivided_sections {
+					f:header_section {
+						f:static_text  {
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/ImagePages=Image Pages",
+							place_vertical = 0.5,
+								-- SPAM this shouldn't be specified here
+						},
+						f:warning_icon {
+							visibility = {
+								key = "lightroomApplication.sizeBeingViewed",
+								whenNotEqual = "large",
+							},
+							tooltip = LOC "$$$/AgWPG/Templates/HTML/Panel/WarningIcons/RequiresLarge=Changes to Image Pages settings aren't currently visible.  Click in the image grid to change to an image page.",
+						},
+					},
+					f:slider_content_column {
+						f:slider_row {
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/MaximumImageSizeLabel/LargePreview=Size",
+							value = useMultiBind and multibind {
+								"photoSizes.large.width",
+								"photoSizes.large.height",
+								"appearance.liveUpdateImageSize.maxSize",
+							}
+							or bind "photoSizes.large.width",
+							tracking = bind "nonCSS.tracking",
+								-- SPAM, couldn't we find a way to remove this
+							unit = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/ImageSizeUnit=px",
+							max = 2071,
+							min = 300,
+							width_in_digits = WIN_XP_ENV and 5 or 4,
+							precision = 0,
+						},
+					},
+					WPGPanelUI.column {
+						-- SPAM : is this colum necessary?
+						WPGPanelUI.column {
+							margin_vertical = 8,
+							margin_horizontal = 10,
+							-- SPAM there might be a better container for this
+							-- content_section here ?
+							f:checkbox_and_color_row {
+								title = LOC "$$$/AgWPG/Templates/HTML/Panel/Checkbox/ShowImageBorder=Photo Borders",
+								enabled = bind "nonCSS.showImageBorderLarge",
+								color = bind "nonCSS.largeImageBorderColor",
+							},
+						},
+						f:slider_content_column {
+							f:slider_row {
+								title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/PhotoBorderWidth=Width",
+								value = bind "nonCSS.imageBorderWidth",
+								tracking = bind "imageBorderWidth.tracking",
+								unit = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/PhotoBorderWidthUnit=px",
+								max = 80,
+								min = 1,
+								width_in_digits = 4,
+								precision = 0,
+							},
+						},
+					},
+				},
+			},
+			outputSettings = f:panel_content {
+				bindToObject = controller,
+				f:subdivided_sections {
+					f:header_section_label {
+						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/ImageHandling=Large Images",
+					},
+					f:slider_content_column {
+						f:slider_row {
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/MaximumImageSizeLabel/JPEGQualityLabel=Quality",
+							value = bind "lightroomApplication.jpegQuality",
+							tracking = bind "lightroomApplication.jpegQuality.tracking",
+							tracking_value = "qualityTracking",
+							unit = "",
+							max = 100,
+							min = 0,
+							width_in_digits = 4,
+							precision = 0,
+						},
+						f:metadataModeControl {
+							value = useMultiBind and multibind {
+								"photoSizes.thumb.metadataExportMode",
+								"photoSizes.large.metadataExportMode",
+							}
+							or bind "photoSizes.thumb.metadataExportMode",
+						},
+					},
+					f:watermark_section( controller ),
+				},
+				f:subdivided_sections {
+					f:header_section {
+						ui.popup_row {
+							title = LOC "$$$/AgWPG/Templates/HTML/Panel/PopupMenu/Sharpening=Sharpening :", 
+							checkbox = {
+								bindingValue = "lightroomApplication.outputSharpeningOn",
+							},
+							bindingValue = "lightroomApplication.outputSharpening",
+							items = { { title = LOC( "$$$/AgWPG/Templates/HTML/PopupMenu/SharpeningLow=Low" ), value = 1 }, 
+										{ title = LOC( "$$$/AgWPG/Templates/HTML/PopupMenu/SharpeningStandard=Standard" ), value = 2 }, 
+										{ title = LOC( "$$$/AgWPG/Templates/HTML/PopupMenu/SharpeningHigh=High" ), value = 3 } },
+							bindingEnabled = "lightroomApplication.outputSharpeningOn",
+						},
+					},
+					f:content_section {
+						margin_left = 30,
+						f:static_text {
+							fill_horizontal = 1,
+							title = LOC "$$$/AgWPG/Templates/HTML/SharpeningMessage=Sharpening is applied on output.",
+							font = warningFont,
+						},
 					},
 				},
 			},
 		}
 	end,
-	
+
 }
+
+

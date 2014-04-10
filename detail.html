@@ -1,0 +1,86 @@
+<%
+--[[ Define some variables to make locating other resources easier
+     firstPage was defined in our manifest.]]
+
+    local image = getImage( index )
+    local theRoot = ".."
+    local others = "."
+    local mySize = "large"
+%>
+
+<% --[[ Include the page header]] %>
+<%@ include file="head.html" %>
+
+
+  <% --[[ Main image area ]] %>
+
+  <div id="stage2">
+    <div id="previewFull" class="borderTopLeft borderBottomRight">
+      <div id="detailTitle" class="detailText">
+        $image.metadata.title
+      </div>
+
+	  <% --[[ Pagination section ]] %>
+
+      <div class="detailNav">
+        <ul>
+          <lr:Pagination>
+            <lr:PreviousEnabled>
+              <li class="previous"> <a class="paginationLinks detailText" href="$link"><%= LOC "$$$/AgWPG/Templates/HTML/output/Previous=Previous" %></a> </li>
+            </lr:PreviousEnabled>
+            <lr:PreviousDisabled>
+              <li class="previous detailText"> <%= LOC "$$$/AgWPG/Templates/HTML/output/Previous=Previous" %> </li>
+            </lr:PreviousDisabled>
+            <li class="index"> <a href="$gridPageLink" class="detailLinks detailText"><%= LOC "$$$/AgWPG/Templates/HTML/output/Index=Index" %></a> </li>
+            <lr:NextEnabled>
+              <li class="next"> <a class="paginationLinks detailText" href="$link"><%= LOC "$$$/AgWPG/Templates/HTML/output/Next=Next" %></a> </li>
+            </lr:NextEnabled>
+            <lr:NextDisabled>
+              <li class="next detailText"> <%= LOC "$$$/AgWPG/Templates/HTML/output/Next=Next" %> </li>
+            </lr:NextDisabled>
+          </lr:Pagination>
+        </ul>
+      </div>
+
+<%
+	--[[
+		Logic for centering the image on the page.  We've decided to implement a rather complicated
+		layout system for the image depending on whether it can fit nicely in the same area
+		occupied by the grid.  That coupled with the fact that HTML doesn't center things very
+		well means its a little harder yet.  The solution we adopt is to calculate the left margin
+		for the image, and then position the element manually.
+		]]
+    local imageBorderWidth = 0
+    local imgWidth = image.renditions.large.width
+    local imgHeight = image.renditions.large.height
+    if model.nonCSS.showImageBorderLarge then
+        imageBorderWidth = model.nonCSS.imageBorderWidth
+    end
+    local gridDefinedWidth = model.nonCSS.numCols * 161 + 1
+    local imagePlusBorderDefinedWith = 2 * imageBorderWidth + model.photoSizes.large.width + 30
+    local stageWidth = math.max( gridDefinedWidth, imagePlusBorderDefinedWith )
+    local previewX = math.floor( math.max( 15, ( stageWidth - imgWidth ) / 2 ) ) - imageBorderWidth
+%>
+      <a href="$gridPageLink">
+
+      <div style="margin-left:<%= previewX %>px;">
+			<img src="images/large/<%= image.exportFilename %>.jpg"
+				class="previewFullImage preview"
+				id="previewImage"
+				alt="$image.metadata.title">
+      </div>
+      </a>
+      <div style="clear:both; height:5px"></div>
+
+	  <% --[[ Caption ]] %>
+
+      <div id="detailCaption" class="detailText">
+        $image.metadata.description
+      </div>
+    </div>
+  </div>
+  <div class="clear">
+  </div>
+
+<% --[[ Include the page footer]] %>
+<%@ include file="foot.html" %>

@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+
+<% --[[ HTML page metadata and stylesheets ]] %>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<meta name="Keywords" content="" >
+<meta name="generator" content="Adobe Photoshop Lightroom with the MTP HTML Web Gallery Engine" >
+<title>$model.metadata.siteTitle.value</title>
+<link rel="stylesheet" type="text/css" media="screen" title="Custom Settings" href="$others/custom.css" >
+<link rel="stylesheet" type="text/css" media="screen" title="Custom Settings" href="$theRoot/resources/css/master.css" >
+
+<% --[[ Scripting support for rollovers ]] %>
+
+<script type="text/javascript">
+window.AgMode = "$mode";
+cellRolloverColor="#A1A1A1";
+cellColor="#949494";
+</script>
+
+<% --[[ Special hacks for Internet Explorer ]] %>
+
+<!--[if lt IE 7.]> <script defer type="text/javascript" src="$theRoot/resources/js/pngfix.js"></script> <![endif]-->
+<!--[if gt IE 6]> <link rel="stylesheet" href="$theRoot/resources/css/ie7.css"></link> <![endif]-->
+<!--[if lt IE 7.]> <link rel="stylesheet" href="$theRoot/resources/css/ie6.css"></link> <![endif]-->
+</head>
+
+<% --[[ The main HTML page begins here ]] %>
+
+<body>
+
+<div id="wrapper_$mySize">
+  <%
+
+local function fixUrlIfRelative( url )
+  url = tostring( url ) or ""
+  if string.find( url, "[a-z]+:" ) then
+    -- this url starts with something like http: or mailto:, so leave it alone
+  else
+    -- this url is probably relative, so we need to tack on theRoot to the beginning
+    -- of it, so no matter where the page we're currently viewing is placed in the
+    -- output hierarchy, this link will still point to the same page
+    url = theRoot .. "/" .. url;
+  end
+  return url
+end
+
+  --[[ Include the identity plate during preview to enable quick live update ]]
+
+    local includeIdentityPlate = model.appearance.logo.display
+    if includeIdentityPlate then
+      local url = fixUrlIfRelative( model.metadata.homePage.value )
+  %>
+  <div id="model.nonCSS.idplateEnabled">
+    <div class="logo"> <a href="$url"> <img width="<%= getIdentityPlateSize().width %>" height="<%= getIdentityPlateSize().height %>" class="pngDelayDisplay" src="$others/logo.png" alt="Logo"> </a> </div>
+  </div>
+  <%
+    end --[[ End conditionalize identity plate ]]
+  %>
+
+  <% --[[ Page header titles ]] %>
+
+  <div id="sitetitle">
+    <h1>$model.metadata.siteTitle.value</h1>
+  </div>
+  <div id="collectionHeader">
+    <h1 id="metadata.groupTitle.value" class="textColor">$model.metadata.groupTitle.value</h1>
+    <p id="metadata.groupDescription.value" class="textColor">$model.metadata.groupDescription.value</p>
+  </div>
