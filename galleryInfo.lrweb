@@ -13,12 +13,11 @@ local warningFont = {
 	size = tonumber( warningFontSize ),
 }
 
-local useMultiBind = false
 return {
 	LrSdkVersion = 2.0,
 	LrSdkMinimumVersion = 2.0, -- minimum SDK version required by this plugin
 
-	title = LOC "$$$/AgWPG/Templates/HTML/Title=Lightroom/MTP HTML Gallery",
+	title = LOC "$$$/AgWPG/Templates/HTML/Title=MTP HTML Gallery",
 	id = "com.moving-target-photos.v2014",
 	galleryType = "lua",
 	maximumGallerySize = 50000,
@@ -27,12 +26,10 @@ return {
 	model = {
 		["photoSizes.large.directory"] = "images/large",
 		["photoSizes.large.cropMode"] = "normal",
-		["photoSizes.large.height"] = useMultiBind and 450
-			or function() return photoSizes.large.width end,
+		["photoSizes.large.height"] = function() return photoSizes.large.width end,
 		["photoSizes.large.maxHeight"] = 2701,
 		["photoSizes.large.maxWidth"] = 2701,
-		["photoSizes.large.metadataExportMode"] = useMultiBind and "copyright"
-			or function() return photoSizes.thumb.metadataExportMode end,
+		["photoSizes.large.metadataExportMode"] = "all",
 		["photoSizes.large.width"] = 950,
 		["photoSizes.large.height"] = 650,
 		["photoSizes.thumb.directory"] =  "images/thumb",
@@ -41,7 +38,7 @@ return {
 		["photoSizes.thumb.metadataExportMode"] = "copyright",
 		["photoSizes.thumb.width"] = 130,
 		["photoSizes.tracking"] = false,
-		["appearance.body.background-color"] = "#4c4c4c",
+		["appearance.body.background-color"] = "#13509f",
 		["appearance.body.cssID"] = "body",
 		["appearance.borderBottom.border-bottom"] = function()
 			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
@@ -78,7 +75,7 @@ return {
 		["appearance.contactInfo.cssID"] = "#liveUpdateContactInfo",
 		["appearance.detailText.color"] = "#b3b3b3",
 		["appearance.detailText.cssID"] = ".detailText",
-		["appearance.emptyThumbnail.background-color"] = useMultibind and "#949494" or function() return nonCSS.cellColor end,
+		["appearance.emptyThumbnail.background-color"] = function() return nonCSS.cellColor end,
 		["appearance.emptyThumbnail.cssID"] = ".emptyThumbnail",
 		["appearance.itemNumber.color"] = "#9c9c9c",
 		["appearance.itemNumber.cssID"] = ".itemNumber",
@@ -96,10 +93,7 @@ return {
 			return string.format( "%dpx", math.max( nonCSS.numCols * 160 + 2, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
 		end,
 		["appearance.liveUpdateImageSize.cssID"] = "#previewImage",
-		["appearance.liveUpdateImageSize.maxSize"] = useMultiBind and 450
-			or function()
-				return photoSizes.large.width
-			end,
+		["appearance.liveUpdateImageSize.maxSize"] = function()	return photoSizes.large.width end,
 		["appearance.siteTitle.cssID"] = "#liveUpdateSiteTitle",
 		["appearance.sitetitle.border-bottom"] = function()
 			return  nonCSS.showSectionBorder and string.format("1px dotted %s", LrColorToWebColor( nonCSS.sectionBorderColor ) ) or "none" 
@@ -119,11 +113,9 @@ return {
 			return nonCSS.showImageBorderThumb and string.format( "1px solid %s", LrColorToWebColor( nonCSS.thumbBorderColor ) ) or "none" 
 		end,
 		["appearance.thumb.cssID"] = ".thumb",
-		["appearance.thumbnail.background-color"] = useMultiBind and "#949494"
-			or function() return nonCSS.cellColor end,
+		["appearance.thumbnail.background-color"] = function() return nonCSS.cellColor end,
 		["appearance.thumbnail.cssID"] = ".thumbnail",
-		["appearance.thumbnailHover.background-color"] = useMultiBind and "#a1a1a1"
-			or function() return nonCSS.cellRolloverColor end,
+		["appearance.thumbnailHover.background-color"] = function() return nonCSS.cellRolloverColor end,
 		["appearance.thumbnailHover.cssID"] = ".selectedThumbnail, .thumbnail:hover",
 		["appearance.winDropShadows.cssID"] = ".thumb, .preview",
 		["appearance.winDropShadows.filter"] = function()
@@ -189,8 +181,6 @@ return {
 	views = function( controller, f )
 		local LrView = import "LrView"
 		local bind = LrView.bind
-		-- doesn't work with undo yet
-		local multibind = f.multibind
 
 		return { 
 
@@ -266,20 +256,11 @@ return {
 					},
 					f:color_content_column {
 						f:label_and_color_row {
-							color = useMultiBind and multibind {
-								"nonCSS.cellColor",
-								"appearance.emptyThumbnail.background-color",
-								"appearance.thumbnail.background-color",
-							}
-							or bind "nonCSS.cellColor",
+							color = bind "nonCSS.cellColor",
 							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/CellsStatic=Cells",
 						},
 						f:label_and_color_row {
-							color = useMultiBind and multibind {
-								"nonCSS.cellRolloverColor",
-								"appearance.thumbnailHover.background-color",
-							}
-							or bind "nonCSS.cellRolloverColor",
+							color = bind "nonCSS.cellRolloverColor",
 							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/CellRollover=Rollover",
 						},
 						f:label_and_color_row {
@@ -376,12 +357,7 @@ return {
 					f:slider_content_column {
 						f:slider_row {
 							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/MaximumImageSizeLabel/LargePreview=Size",
-							value = useMultiBind and multibind {
-								"photoSizes.large.width",
-								"photoSizes.large.height",
-								"appearance.liveUpdateImageSize.maxSize",
-							}
-							or bind "photoSizes.large.width",
+							value = bind "photoSizes.large.width",
 							tracking = bind "nonCSS.tracking",
 								-- SPAM, couldn't we find a way to remove this
 							unit = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/ImageSizeUnit=px",
@@ -438,11 +414,7 @@ return {
 							precision = 0,
 						},
 						f:metadataModeControl {
-							value = useMultiBind and multibind {
-								"photoSizes.thumb.metadataExportMode",
-								"photoSizes.large.metadataExportMode",
-							}
-							or bind "photoSizes.thumb.metadataExportMode",
+							value = bind "photoSizes.thumb.metadataExportMode",
 						},
 					},
 					f:watermark_section( controller ),
