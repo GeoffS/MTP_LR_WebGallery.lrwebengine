@@ -34,36 +34,36 @@ return {
 		["photoSizes.large.height"] = 650,
 		["photoSizes.thumb.directory"] =  "images/thumb",
 		["photoSizes.thumb.cropMode"] = "normal",
-		["photoSizes.thumb.height"] = 130,
+		["photoSizes.thumb.height"] = 120,
 		["photoSizes.thumb.metadataExportMode"] = "copyright",
-		["photoSizes.thumb.width"] = 130,
+		["photoSizes.thumb.width"] = 120,
 		["photoSizes.tracking"] = false,
 		["appearance.body.background-color"] = "#13509f",
 		["appearance.body.cssID"] = "body",
 		["appearance.borderBottom.border-bottom"] = function()
-			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+			return string.format( "5px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
 		end,
 		["appearance.borderBottom.cssID"] = ".borderBottom",
 		["appearance.borderBottomRight.border-bottom"] = function()
-			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+			return string.format( "5px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
 		end,
 		["appearance.borderBottomRight.border-right"] = function()
-			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+			return string.format( "5px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
 		end,
 		["appearance.borderBottomRight.cssID"] = ".borderBottomRight",
 		["appearance.borderRight.border-right"] = function()
-			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+			return string.format( "5px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
 		end,
 		["appearance.borderRight.cssID"] = ".borderRight",
 		["appearance.borderRightDotted.border-right"] = function()
-			return string.format( "1px dotted %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+			return string.format( "5px dotted %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
 		end,
 		["appearance.borderRightDotted.cssID"] = ".borderRightDotted",
 		["appearance.borderTopLeft.border-left"] = function()
-			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+			return string.format( "5px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
 		end,
 		["appearance.borderTopLeft.border-top"] = function()
-			return string.format( "1px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
+			return string.format( "5px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
 		end,
 		["appearance.borderTopLeft.cssID"] = ".borderTopLeft",
 		["appearance.caption.color"] = "#b3b3b3",
@@ -101,11 +101,11 @@ return {
 		["appearance.sitetitle.cssID"] = "#sitetitle",
 		["appearance.stage2.cssID"] = "#stage2",
 		["appearance.stage2.width"] = function()
-			return string.format( "%dpx", math.max( nonCSS.numCols * 161 + 1, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
+			return string.format( "%dpx", math.max( nonCSS.numCols * 165 + 5, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
 		end,
 		["appearance.stage.cssID"] = "#stage",
 		["appearance.stage.width"] = function()
-			return string.format( "%dpx", nonCSS.numCols * 161 + 1 ) 
+			return string.format( "%dpx", nonCSS.numCols * 165 + 5 ) 
 		end,
 		["appearance.textColor.color"] = "#b3b3b3",
 		["appearance.textColor.cssID"] = ".textColor",
@@ -123,11 +123,11 @@ return {
 		end,
 		["appearance.wrapper_large.cssID"] = "#wrapper_large",
 		["appearance.wrapper_large.width"] = function()
-			return string.format( "%dpx", math.max( nonCSS.numCols * 161 + 1, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
+			return string.format( "%dpx", math.max( nonCSS.numCols * 165 + 5, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
 		end,
 		["appearance.wrapper_thumb.cssID"] = "#wrapper_thumb",
 		["appearance.wrapper_thumb.width"] = function()
-			return string.format( "%dpx", nonCSS.numCols * 161 + 1 ) 
+			return string.format( "%dpx", nonCSS.numCols * 165 + 5 ) 
 		end,
 		["lightroomApplication.identityPlateExport"] = "(main)",
 		["lightroomApplication.jpegQuality"] = 85,
@@ -148,7 +148,7 @@ return {
 			metadata = { [ "ag:dataType" ] = "webLink" },
 		},
 		["metadata.siteTitle.value"] = "",
-		["nonCSS.cellBorderColor"] = "#787878",
+		["nonCSS.cellBorderColor"] = "#13509f",
 		["nonCSS.cellColor"] = "#002047",
 		["nonCSS.cellRolloverColor"] = "#627EAB",
 		["nonCSS.dropShadows"] = false,
