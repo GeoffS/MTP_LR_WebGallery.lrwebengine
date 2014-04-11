@@ -53,7 +53,8 @@ end
       local url = fixUrlIfRelative( model.metadata.homePage.value )
   %>
   <div id="model.nonCSS.idplateEnabled">
-    <div class="logo"> <a href="$url"> <img width="<%= getIdentityPlateSize().width %>" height="<%= getIdentityPlateSize().height %>" class="pngDelayDisplay" src="$others/logo.png" alt="Logo"> </a> </div>
+    <!-- div class="logo"> <a href="$url"> <img width="<%= getIdentityPlateSize().width %>" height="<%= getIdentityPlateSize().height %>" class="pngDelayDisplay" src="$others/logo.png" alt="Logo"> </a> </div -->
+    <div class="logo"> <a href="$url"> <img width="359" height="37" class="pngDelayDisplay" src="$theRoot/resources/misc/MTP_Banner_2014_half.png" alt="Logo"> </a> </div>
   </div>
   <%
     end --[[ End conditionalize identity plate ]]
