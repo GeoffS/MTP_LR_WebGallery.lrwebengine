@@ -31,11 +31,11 @@
 		%>
         <% --[[ The grid ]] %>
         <lr:GridPhotoCell>
+          <!-- Row: <%= row %>, Column: <%= column %> -->
           <div class="gridElem" style="margin:0px <%= marginRight(row, column) %>px <%= elemSpacing %>px 0px;">
-            <!-- Row: <%= row %>, Column: <%= column %> -->
-		    <!-- Image width: <%= image.renditions.thumb.width  %>, Image height: <%= image.renditions.thumb.height  %> -->
+		    <!-- Image width: <%= image.renditions.thumb.width %>, Image height: <%= image.renditions.thumb.height %> -->
 		    <a href="$others/<%= image.exportFilename %>_large.html">
-		      <img src="$others/images/thumb/<%= image.exportFilename %>.jpg" id="ID<%= image.imageID %>_thumb" alt="" class="indexGrid"
+		      <img src="$others/images/thumb/<%= image.exportFilename %>.jpg" width="<%= image.renditions.thumb.width %>", height="<%= image.renditions.thumb.height %>", id="ID<%= image.imageID %>_thumb" alt="" class="indexGrid"
 		      style="margin-left:<%= math.floor( (elemWidth - image.renditions.thumb.width) / 2 )-1 %>px; margin-top:<%= math.floor( (elemHeight - image.renditions.thumb.height) / 2 )-1 %>px;" />
 		    </a>
           </div>
