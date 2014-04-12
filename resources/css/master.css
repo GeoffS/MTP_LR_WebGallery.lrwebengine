@@ -505,3 +505,28 @@ width: 804px /*5 x CellWidth + 4px Gap*/
 	position: relative;
 	top: -13px;
 }
+
+/* Moving Target Photos */
+
+div.gridContainer
+{
+background-color:#202020;
+}
+div.gridElem
+{
+float:left;
+width:134px;
+height:134px;
+margin:5px 0px 0px 5px;
+background-image:url('../misc/134GridBackground.png');
+}
+img.indexGrid
+{
+border-style:solid;
+border-width:1px;
+border-color:#c0c0c0;
+}
+img.indexGrid:hover
+{
+border-color:#ffffff;
+}

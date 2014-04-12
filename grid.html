@@ -5,6 +5,15 @@
     local others = "content"
     local theRoot = "."
     local mySize = "thumb"
+
+    local elemWidth = 134
+	local elemHeight = 134
+	local elemSpacing = 5
+	local elemsAcross = 5
+    local elemsDown = 4
+
+    local gridAreaWidth  = elemsAcross*(elemWidth+elemSpacing)+elemSpacing
+    local gridAreaHeight = elemsDown*(elemHeight+elemSpacing)+elemSpacing
 %>
 
 <% --[[ Include the page header]] %>
@@ -13,33 +22,19 @@
   <% --[[ Main grid area ]] %>
 
   <div id="stage">
-    <div id="index">
+    <div id="index" class="gridContainer" style="width:<%= gridAreaWidth %>px; height:<%= gridAreaHeight %>px;">
       <lr:ThumbnailGrid>
-        <%
-			--[[ Logic for putting borders around all the grid cells ]]
-
-			local borderFunc = function( row, column )
-				local result = ''
-				if column == columns then result = ' borderRight' end
-				if row == rows then result = result .. ' borderBottom' end
-				return result
-			end
-		%>
-
-		<% --[[ The grid ]] %>
-
+        <% --[[ The grid ]] %>
         <lr:GridPhotoCell>
-          <div class="thumbnail borderTopLeft<%= borderFunc( row, column ) %>" onmouseover="window.gridOn( this.parentNode, 'ID<%= image.imageID %>_thumb' );" onmouseout="window.gridOff( this.parentNode );" onclick="window.location.href='$others/<%= image.exportFilename %>_large.html'">
-            <div class="itemNumber">$cellIndex</div>
-            <a href="$others/<%= image.exportFilename %>_large.html" onclick="return needThumbImgLink;">
-            <div style="margin-left:<%= 80 - math.floor( image.renditions.thumb.width / 2 ) %>px; margin-top:<%= 80 - math.floor( image.renditions.thumb.height / 2 ) %>px;">
-              <img src="$others/images/thumb/<%= image.exportFilename %>.jpg" id="ID<%= image.imageID %>_thumb" alt="" class="thumb" />
-            </div>
-            </a> </div>
+          <div class="gridElem">
+		    <!-- Image width: <%= image.renditions.thumb.width  %>, Image height: <%= image.renditions.thumb.height  %> -->
+		    <!-- Margin Left: <%= (elemWidth - image.renditions.thumb.width) / 2.0 %>, Margin Top: <%= (elemHeight - image.renditions.thumb.height) / 2.0 %> -->
+		    <a href="$others/<%= image.exportFilename %>_large.html">
+		      <img src="$others/images/thumb/<%= image.exportFilename %>.jpg" id="ID<%= image.imageID %>_thumb" alt="" class="indexGrid"
+		      style="margin-left:<%= math.floor( (elemWidth - image.renditions.thumb.width) / 2 )-1 %>px; margin-top:<%= math.floor( (elemHeight - image.renditions.thumb.height) / 2 )-1 %>px;" />
+		    </a>
+          </div>
         </lr:GridPhotoCell>
-        <lr:GridEmptyCell>
-          <div class="emptyThumbnail borderTopLeft <%= borderFunc( row, column ) %>"></div>
-        </lr:GridEmptyCell>
         <lr:GridRowEnd>
           <div class="clear">
           </div>
