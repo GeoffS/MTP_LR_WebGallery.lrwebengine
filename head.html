@@ -24,6 +24,17 @@ cellColor="#949494";
 <!--[if lt IE 7.]> <script defer type="text/javascript" src="$theRoot/resources/js/pngfix.js"></script> <![endif]-->
 <!--[if gt IE 6]> <link rel="stylesheet" href="$theRoot/resources/css/ie7.css"></link> <![endif]-->
 <!--[if lt IE 7.]> <link rel="stylesheet" href="$theRoot/resources/css/ie6.css"></link> <![endif]-->
+
+<% if pageType == 'photo' then %>
+<script type="text/javascript">
+	idx0 = new Image(31,31); idx0.src = "$theRoot/resources/misc/idx.gif";
+	idx1 = new Image(31,31); idx1.src = "$theRoot/resources/misc/idx1.gif";
+	next0 = new Image(31,31);next0.src = "$theRoot/resources/misc/next.gif";
+	next1 = new Image(31,31);next1.src = "$theRoot/resources/misc/next1.gif";
+	prev0 = new Image(31,31);prev0.src = "$theRoot/resources/misc/prev.gif";
+	prev1 = new Image(31,31);prev1.src = "$theRoot/resources/misc/prev1.gif";
+</script>
+<% end %>
 </head>
 
 <% --[[ The main HTML page begins here ]] %>
