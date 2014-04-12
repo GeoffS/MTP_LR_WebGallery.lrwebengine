@@ -23,21 +23,38 @@
         <ul>
           <lr:Pagination>
             <lr:PreviousEnabled>
-              <li class="previous"> <a class="paginationLinks detailText" href="$link"><%= LOC "$$$/AgWPG/Templates/HTML/output/Previous=Previous" %></a> </li>
+              <li class="navIcon"><a href="$link"><img src="../resources/misc/prev1.gif" /></a></li>
             </lr:PreviousEnabled>
             <lr:PreviousDisabled>
-              <li class="previous detailText"> <%= LOC "$$$/AgWPG/Templates/HTML/output/Previous=Previous" %> </li>
+              <li class="navIcon"><img src="../resources/misc/prev_disabled.gif" /></li>
             </lr:PreviousDisabled>
-            <li class="index"> <a href="$gridPageLink" class="detailLinks detailText"><%= LOC "$$$/AgWPG/Templates/HTML/output/Index=Index" %></a> </li>
+            <li class="navIcon"><a href="$gridPageLink"><img src="../resources/misc/idx1.gif" /></a></li>
             <lr:NextEnabled>
-              <li class="next"> <a class="paginationLinks detailText" href="$link"><%= LOC "$$$/AgWPG/Templates/HTML/output/Next=Next" %></a> </li>
+              <li class="navIcon"><a href="$link"><img src="../resources/misc/next1.gif" /></a></li>
             </lr:NextEnabled>
             <lr:NextDisabled>
-              <li class="next detailText"> <%= LOC "$$$/AgWPG/Templates/HTML/output/Next=Next" %> </li>
+              <li class="navIcon"><img src="../resources/misc/prev_disabled.gif" /></li>
             </lr:NextDisabled>
           </lr:Pagination>
         </ul>
       </div>
+
+      <!-- Image Map: -->
+      <lr:Pagination>
+		  <lr:PreviousEnabled>
+              <!-- Previous: $link -->
+		  </lr:PreviousEnabled>
+		  <lr:PreviousDisabled>
+              <!-- No Previous -->
+		  </lr:PreviousDisabled>
+
+		  <lr:NextEnabled>
+              <!-- Next: $link -->
+		  </lr:NextEnabled>
+		  <lr:NextDisabled>
+              <!-- No Next -->
+		  </lr:NextDisabled>
+      </lr:Pagination>
 
 <%
 	--[[
