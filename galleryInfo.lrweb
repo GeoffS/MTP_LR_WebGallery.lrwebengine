@@ -66,14 +66,11 @@ return {
 			return string.format( "5px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
 		end,
 		["appearance.borderTopLeft.cssID"] = ".borderTopLeft",
-		["appearance.caption.color"] = "#b3b3b3",
+		["appearance.caption.color"] = "#F0F0F0",
 		["appearance.caption.cssID"] = ".caption",
-		["appearance.contact.border-bottom"] = function()
-			return  nonCSS.showSectionBorder and string.format("1px dotted %s", LrColorToWebColor( nonCSS.sectionBorderColor ) ) or "none" 
-		end,
 		["appearance.contact.cssID"] = "#stage, #stage2",
 		["appearance.contactInfo.cssID"] = "#liveUpdateContactInfo",
-		["appearance.detailText.color"] = "#b3b3b3",
+		["appearance.detailText.color"] = "#F0F0F0",
 		["appearance.detailText.cssID"] = ".detailText",
 		["appearance.emptyThumbnail.background-color"] = function() return nonCSS.cellColor end,
 		["appearance.emptyThumbnail.cssID"] = ".emptyThumbnail",
@@ -107,7 +104,7 @@ return {
 		["appearance.stage.width"] = function()
 			return string.format( "%dpx", nonCSS.numCols * 165 + 5 ) 
 		end,
-		["appearance.textColor.color"] = "#b3b3b3",
+		["appearance.textColor.color"] = "#f0f0f0",
 		["appearance.textColor.cssID"] = ".textColor",
 		["appearance.thumb.border"] = function()
 			return nonCSS.showImageBorderThumb and string.format( "1px solid %s", LrColorToWebColor( nonCSS.thumbBorderColor ) ) or "none" 

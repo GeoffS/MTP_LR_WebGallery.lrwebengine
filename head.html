@@ -6,7 +6,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
 <meta name="Keywords" content="" >
-<meta name="generator" content="Adobe Photoshop Lightroom with the MTP HTML Web Gallery Engine" >
+<meta name="generator" content="Adobe Photoshop Lightroom with the MTP 2014 HTML Web Gallery Engine" >
 <title>$model.metadata.siteTitle.value</title>
 <link rel="stylesheet" type="text/css" media="screen" title="Custom Settings" href="$others/custom.css" >
 <link rel="stylesheet" type="text/css" media="screen" title="Custom Settings" href="$theRoot/resources/css/master.css" >
@@ -31,41 +31,11 @@ cellColor="#949494";
 <body>
 
 <div id="wrapper_$mySize">
-  <%
-
-local function fixUrlIfRelative( url )
-  url = tostring( url ) or ""
-  if string.find( url, "[a-z]+:" ) then
-    -- this url starts with something like http: or mailto:, so leave it alone
-  else
-    -- this url is probably relative, so we need to tack on theRoot to the beginning
-    -- of it, so no matter where the page we're currently viewing is placed in the
-    -- output hierarchy, this link will still point to the same page
-    url = theRoot .. "/" .. url;
-  end
-  return url
-end
-
-  --[[ Include the identity plate during preview to enable quick live update ]]
-
-    local includeIdentityPlate = model.appearance.logo.display
-    if includeIdentityPlate then
-      local url = fixUrlIfRelative( model.metadata.homePage.value )
-  %>
   <div id="model.nonCSS.idplateEnabled">
-    <!-- div class="logo"> <a href="$url"> <img width="<%= getIdentityPlateSize().width %>" height="<%= getIdentityPlateSize().height %>" class="pngDelayDisplay" src="$others/logo.png" alt="Logo"> </a> </div -->
-    <div class="logo"> <a href="$url"> <img width="359" height="37" class="pngDelayDisplay" src="$theRoot/resources/misc/MTP_Banner_2014_half.png" alt="Logo"> </a> </div>
+    <div class="logo"> <a href="http://moving-target-photos.com/"> <img width="359" height="37" class="pngDelayDisplay" src="$theRoot/resources/misc/MTP_Banner_2014_half.png" alt="Logo"> </a> </div>
   </div>
-  <%
-    end --[[ End conditionalize identity plate ]]
-  %>
 
   <% --[[ Page header titles ]] %>
-
-  <div id="sitetitle">
-    <h1>$model.metadata.siteTitle.value</h1>
-  </div>
   <div id="collectionHeader">
-    <h1 id="metadata.groupTitle.value" class="textColor">$model.metadata.groupTitle.value</h1>
-    <p id="metadata.groupDescription.value" class="textColor">$model.metadata.groupDescription.value</p>
+    <h1 id="metadata.groupTitle.value" class="textColor" style="font-size: 24px;">$model.metadata.groupTitle.value</h1>
   </div>
