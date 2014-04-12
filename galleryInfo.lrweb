@@ -20,7 +20,7 @@ return {
 	title = LOC "$$$/AgWPG/Templates/HTML/Title=MTP HTML Gallery",
 	id = "com.moving-target-photos.v2014",
 	galleryType = "lua",
-	maximumGallerySize = 50000,
+	maximumGallerySize = 500,
 	supportsLiveUpdate = false,
 
 	model = {
@@ -157,7 +157,7 @@ return {
 		["nonCSS.imageBorderWidth"] = 1,
 		["nonCSS.largeImageBorderColor"] = "#000000",
 		["nonCSS.numCols"] = 5,
-		["nonCSS.numRows"] = 4,
+		["nonCSS.numRows"] = 50,
 		["nonCSS.sectionBorderColor"] = "#7F7F7F",
 		["nonCSS.showImageBorderLarge"] = true,
 		["nonCSS.showImageBorderThumb"] = true,

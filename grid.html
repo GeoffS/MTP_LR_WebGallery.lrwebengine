@@ -9,14 +9,7 @@
     local elemWidth = 134
 	local elemHeight = 134
 
-	local gridContainerPadding = 10
 	local elemSpacing = 5
-
-	local elemsAcross = 5
-    local elemsDown = 4
-
-    local gridAreaWidth  = elemsAcross*(elemWidth+elemSpacing)+elemSpacing
-    local gridAreaHeight = elemsDown*(elemHeight+elemSpacing)+elemSpacing
 %>
 
 <% --[[ Include the page header]] %>
@@ -25,13 +18,22 @@
   <% --[[ Main grid area ]] %>
 
   <div id="stage">
-    <div id="index" class="gridContainer" style="width:<%= gridAreaWidth %>px; height:<%= gridAreaHeight %>px; padding:<%= gridContainerPadding %>px;">
+    <!-- Grid Cols, Rows: <%= columns %>, <%= rows %> -->
+    <div id="index">
       <lr:ThumbnailGrid>
+        <%
+			--[[ Logic for zeroing the right-margin for the rightmost grid cells: ]]
+			local marginRight = function( row, column )
+				local result = ''
+				if column == columns then return 0 end
+				return elemSpacing
+			end
+		%>
         <% --[[ The grid ]] %>
         <lr:GridPhotoCell>
-          <div class="gridElem">
+          <div class="gridElem" style="margin:0px <%= marginRight(row, column) %>px <%= elemSpacing %>px 0px;">
+            <!-- Row: <%= row %>, Column: <%= column %> -->
 		    <!-- Image width: <%= image.renditions.thumb.width  %>, Image height: <%= image.renditions.thumb.height  %> -->
-		    <!-- Margin Left: <%= (elemWidth - image.renditions.thumb.width) / 2.0 %>, Margin Top: <%= (elemHeight - image.renditions.thumb.height) / 2.0 %> -->
 		    <a href="$others/<%= image.exportFilename %>_large.html">
 		      <img src="$others/images/thumb/<%= image.exportFilename %>.jpg" id="ID<%= image.imageID %>_thumb" alt="" class="indexGrid"
 		      style="margin-left:<%= math.floor( (elemWidth - image.renditions.thumb.width) / 2 )-1 %>px; margin-top:<%= math.floor( (elemHeight - image.renditions.thumb.height) / 2 )-1 %>px;" />
