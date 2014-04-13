@@ -401,28 +401,6 @@ width: 804px /*5 x CellWidth + 4px Gap*/
 	width: 100%;
 }
 
-.detailNav {
-	width: 100%;
-	float:left;
-	clear: both;
-	text-align: center;
-
-}
-
-.detailNav ul {
-	margin: 1px auto 3px auto;
-	text-align: center;
-}
-
-.detailNav ul li {
-	display:inline;
-	text-align: center;
-	list-style: none;
-	padding: 3px;
-}
-
-
-
 #detailImage {
 	text-align: center;
 	width: 100%;
@@ -457,7 +435,7 @@ width: 804px /*5 x CellWidth + 4px Gap*/
 }
 
 .preview {
-	border: 1px solid black;
+	border: 15px solid black;
 	position: relative;
 }
 
@@ -530,6 +508,4 @@ img.indexGrid:hover
 {
 border-color:#ffffff;
 }
-li.navIcon
-{
-}
+

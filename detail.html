@@ -16,28 +16,27 @@
 
   <div id="stage2">
     <div id="previewFull" class="borderTopLeft borderBottomRight">
-
 	  <% --[[ Pagination section ]] %>
-
-      <div class="detailNav">
-        <ul>
+    <div style="margin: 0px auto 1px auto; text-align:center; width:150px; height:35px;">
+      <div class="navBar">
           <lr:Pagination>
             <lr:PreviousEnabled>
-              <li class="navIcon"><a href="$link"><img id="prev" width="31" height="31" alt="Up" title=" Previous Image " onmouseout="this.src=prev0.src" onmouseover="this.src=prev1.src" src="$theRoot/resources/misc/prev.gif" style="border:0;" /></a></li>
+              <a href="$link"><img id="prev" class="navBar" width="31" height="31" alt="Up" title=" Previous Image " onmouseout="this.src=prev0.src" onmouseover="this.src=prev1.src" src="$theRoot/resources/misc/prev.gif" /></a>
             </lr:PreviousEnabled>
             <lr:PreviousDisabled>
-              <li class="navIcon"><img src="../resources/misc/prev_disabled.gif" width="31" height="31" style="border:0;" /></li>
+              <img src="../resources/misc/prev_disabled.gif" class="navBar" width="31" height="31" />
             </lr:PreviousDisabled>
-              <li class="navIcon"><a href="$gridPageLink"><img id="idx" width="31" height="31" alt="Up" title=" Index page " onmouseout="this.src=idx0.src" onmouseover="this.src=idx1.src" src="$theRoot/resources/misc/idx.gif" style="border:0;" /></a></li>
+              <a href="$gridPageLink"><img id="idx" class="navBar" width="31" height="31" alt="Up" title=" Index page " onmouseout="this.src=idx0.src" onmouseover="this.src=idx1.src" src="$theRoot/resources/misc/idx.gif" /></a>
             <lr:NextEnabled>
-              <li class="navIcon"><a href="$link"><img id="next" width="31" height="31" alt="Next" title=" Next Image " onmouseout="this.src=next0.src" onmouseover="this.src=next1.src" src="$theRoot/resources/misc/next.gif" style="border:0;" /></a></li>
+              <a href="$link"><img id="next" class="navBar" width="31" height="31" alt="Next" title=" Next Image " onmouseout="this.src=next0.src" onmouseover="this.src=next1.src" src="$theRoot/resources/misc/next.gif" /></a>
             </lr:NextEnabled>
             <lr:NextDisabled>
-              <li class="navIcon"><img src="../resources/misc/next_disabled.gif" width="31" height="31" style="border:0;" /></li>
+              <img src="../resources/misc/next_disabled.gif" class="navBar"  width="31" height="31" />
             </lr:NextDisabled>
           </lr:Pagination>
         </ul>
       </div>
+    </div>
 <%
 	--[[
 		Logic for centering the image on the page and determining the 1/3 sections for the image-map.
