@@ -180,215 +180,13 @@ return {
 		local bind = LrView.bind
 
 		return { 
-
 			labels = f:panel_content {
 				bindToObject = controller,
 				f:subdivided_sections {
 					f:labeled_text_input  {
-						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/SiteTitle=Site Title",
-						value = bind "metadata.siteTitle.value",
-						max_length = 500,
-					},
-					f:labeled_text_input  {
 						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/GroupTitle=Collection Title",
 						value = bind "metadata.groupTitle.value",
 						max_length = 500,
-					},
-					f:labeled_text_input  {
-						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/GroupDescription=Collection Description",
-						value = bind "metadata.groupDescription.value",
-					},
-				},
-				f:subdivided_sections {
-					f:labeled_text_input  {
-						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/ContactInfo=Contact Info",
-						value = bind "metadata.contactInfo.value",
-					},
-					f:labeled_text_input  {
-						title = LOC "$$$/AgWPG/Templates/HTML/link=Web or Mail Link",
-						value = bind "metadata.contactInfo.link",
-						wraps = false,
-					},
-				},
-				f:subdivided_sections {
-					f:header_section {
-						f:checkbox_row {
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/IdentityPlate=Identity Plate",
-							value = bind "appearance.logo.display",
-						},
-					},
-					f:identity_plate {
-						value = bind "lightroomApplication.identityPlateExport",
-						enabled = bind "appearance.logo.display",
-					},
-					f:labeled_text_input {
-						title = LOC "$$$/AgWPG/Templates/HTML/IdentityPlate/Link=Web or Mail Link",
-						value = bind "metadata.homePage.value",
-						wraps = false,
-					},
-				},
-			},
-			colorPalette = f:panel_content {
-				bindToObject = controller,
-				f:subdivided_sections {
-					f:color_content_column {
-						f:label_and_color_row {
-							color = bind "appearance.textColor.color",
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/TextColor=Text",
-						},
-						f:label_and_color_row {
-							color = bind "appearance.detailText.color",
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/DetailTextColor=Detail Text",
-						},
-					},
-					f:color_content_column {
-						f:label_and_color_row {
-							color = bind "appearance.body.background-color",
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/BackgroundColors=Background",
-						},
-						f:label_and_color_row {
-							color = bind "appearance.previewFull.background-color",
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/DetailMatteColor=Detail Matte",
-						},
-					},
-					f:color_content_column {
-						f:label_and_color_row {
-							color = bind "nonCSS.cellColor",
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/CellsStatic=Cells",
-						},
-						f:label_and_color_row {
-							color = bind "nonCSS.cellRolloverColor",
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/CellRollover=Rollover",
-						},
-						f:label_and_color_row {
-							color = bind "nonCSS.cellBorderColor",
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/GridLines=Grid Lines",
-						},
-						f:label_and_color_row {
-							color = bind "appearance.itemNumber.color",
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Colors/Numbers=Numbers",
-						},
-					},
-				},
-			},
-			appearanceConfiguration = f:panel_content {
-				bindToObject = controller,
-				f:subdivided_sections {
-					f:header_section_label {
-						title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/Appearance/Common=Common Settings",
-					},
-					f:content_section {
-						f:checkbox_row {
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Checkbox/ShowDropShadows=Add Drop Shadow to Photos",
-							value = bind "nonCSS.dropShadows",
-						},
-					},
-					f:content_section {
-						f:checkbox_and_color_row {
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Checkbox/SectionBorders=Section Borders",
-							enabled = bind "nonCSS.showSectionBorder",
-							color = bind "nonCSS.sectionBorderColor",
-						},
-					},
-				},
-				f:subdivided_sections {
-					f:header_section {
-						f:static_text  {
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/GridPages=Grid Pages",
-							place_vertical = 0.5,
-							-- SPAM : this should probably be default on static_text
-						},
-						f:warning_icon {
-							visibility = {
-								key = "lightroomApplication.sizeBeingViewed",
-								whenNotEqual = "thumb",
-							},
-							tooltip = LOC "$$$/AgWPG/Templates/HTML/Panel/WarningIcons/RequiresThumb=Changes to Grid Pages settings aren't currently visible.  Click in the large image to return to the grid page.",
-						},
-					},
-					f:content_column {
-						f:row_column_picker {
-							fill_horizontal = 1,
-							rows = bind "nonCSS.numRows",
-							columns = bind "nonCSS.numCols",
-							max_rows = 5,
-							max_columns = 8,
-							min_rows = 3,
-							min_columns = 3,
-							tooltip = LOC "$$$/AgWPG/Views/HTML/Panel/RowColumnPicker/InstructionText=Click anywhere in the grid to set dimensions.",
-							fill_horizontal=1,
-						},
-					},
-					f:content_section {
-						f:checkbox_row {
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Checkbox/ShowCellNumbers=Show Cell Numbers",
-							value = bind "appearance.itemNumber.display",
-						},
-					},
-					WPGPanelUI.column {
-						margin_vertical = 8,
-						margin_horizontal = 10,
-							-- SPAM these margins shouldn't be specified here
-						f:checkbox_and_color_row {
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Checkbox/ShowImageBorder=Photo Borders",
-							enabled = bind "nonCSS.showImageBorderThumb",
-							color = bind "nonCSS.thumbBorderColor",
-						},
-					},
-				},
-				f:subdivided_sections {
-					f:header_section {
-						f:static_text  {
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/ImagePages=Image Pages",
-							place_vertical = 0.5,
-								-- SPAM this shouldn't be specified here
-						},
-						f:warning_icon {
-							visibility = {
-								key = "lightroomApplication.sizeBeingViewed",
-								whenNotEqual = "large",
-							},
-							tooltip = LOC "$$$/AgWPG/Templates/HTML/Panel/WarningIcons/RequiresLarge=Changes to Image Pages settings aren't currently visible.  Click in the image grid to change to an image page.",
-						},
-					},
-					f:slider_content_column {
-						f:slider_row {
-							title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/MaximumImageSizeLabel/LargePreview=Size",
-							value = bind "photoSizes.large.width",
-							tracking = bind "nonCSS.tracking",
-								-- SPAM, couldn't we find a way to remove this
-							unit = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/ImageSizeUnit=px",
-							max = 2071,
-							min = 300,
-							width_in_digits = WIN_XP_ENV and 5 or 4,
-							precision = 0,
-						},
-					},
-					WPGPanelUI.column {
-						-- SPAM : is this colum necessary?
-						WPGPanelUI.column {
-							margin_vertical = 8,
-							margin_horizontal = 10,
-							-- SPAM there might be a better container for this
-							-- content_section here ?
-							f:checkbox_and_color_row {
-								title = LOC "$$$/AgWPG/Templates/HTML/Panel/Checkbox/ShowImageBorder=Photo Borders",
-								enabled = bind "nonCSS.showImageBorderLarge",
-								color = bind "nonCSS.largeImageBorderColor",
-							},
-						},
-						f:slider_content_column {
-							f:slider_row {
-								title = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/PhotoBorderWidth=Width",
-								value = bind "nonCSS.imageBorderWidth",
-								tracking = bind "imageBorderWidth.tracking",
-								unit = LOC "$$$/AgWPG/Templates/HTML/Panel/Labels/PhotoBorderWidthUnit=px",
-								max = 80,
-								min = 1,
-								width_in_digits = 4,
-								precision = 0,
-							},
-						},
 					},
 				},
 			},
@@ -410,13 +208,8 @@ return {
 							width_in_digits = 4,
 							precision = 0,
 						},
-						f:metadataModeControl {
-							value = bind "photoSizes.thumb.metadataExportMode",
-						},
 					},
 					f:watermark_section( controller ),
-				},
-				f:subdivided_sections {
 					f:header_section {
 						ui.popup_row {
 							title = LOC "$$$/AgWPG/Templates/HTML/Panel/PopupMenu/Sharpening=Sharpening :", 
@@ -428,14 +221,6 @@ return {
 										{ title = LOC( "$$$/AgWPG/Templates/HTML/PopupMenu/SharpeningStandard=Standard" ), value = 2 }, 
 										{ title = LOC( "$$$/AgWPG/Templates/HTML/PopupMenu/SharpeningHigh=High" ), value = 3 } },
 							bindingEnabled = "lightroomApplication.outputSharpeningOn",
-						},
-					},
-					f:content_section {
-						margin_left = 30,
-						f:static_text {
-							fill_horizontal = 1,
-							title = LOC "$$$/AgWPG/Templates/HTML/SharpeningMessage=Sharpening is applied on output.",
-							font = warningFont,
 						},
 					},
 				},
