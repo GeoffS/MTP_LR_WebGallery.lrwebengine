@@ -38,35 +38,16 @@
           </lr:Pagination>
         </ul>
       </div>
-
-      <!-- Image Map: -->
-      <lr:Pagination>
-		  <lr:PreviousEnabled>
-              <!-- Previous: $link -->
-		  </lr:PreviousEnabled>
-		  <lr:PreviousDisabled>
-              <!-- No Previous -->
-		  </lr:PreviousDisabled>
-
-		  <lr:NextEnabled>
-              <!-- Next: $link -->
-		  </lr:NextEnabled>
-		  <lr:NextDisabled>
-              <!-- No Next -->
-		  </lr:NextDisabled>
-      </lr:Pagination>
-
 <%
 	--[[
-		Logic for centering the image on the page.  We've decided to implement a rather complicated
-		layout system for the image depending on whether it can fit nicely in the same area
-		occupied by the grid.  That coupled with the fact that HTML doesn't center things very
-		well means its a little harder yet.  The solution we adopt is to calculate the left margin
-		for the image, and then position the element manually.
-		]]
-    local imageBorderWidth = 0
+		Logic for centering the image on the page and determining the 1/3 sections for the image-map.
+	]]
+
     local imgWidth = image.renditions.large.width
     local imgHeight = image.renditions.large.height
+
+    --[[ Calculate the left-margin: ]]
+    local imageBorderWidth = 0
     if model.nonCSS.showImageBorderLarge then
         imageBorderWidth = model.nonCSS.imageBorderWidth
     end
@@ -74,16 +55,43 @@
     local imagePlusBorderDefinedWith = 2 * imageBorderWidth + model.photoSizes.large.width + 30
     local stageWidth = math.max( gridDefinedWidth, imagePlusBorderDefinedWith )
     local previewX = math.floor( math.max( 15, ( stageWidth - imgWidth ) / 2 ) ) - imageBorderWidth
+
+    --[[ Calculate the coords for the three image thirds: ]]
+    xThird = math.floor(imgWidth/3)
+    leftThird   =          "0,0,"      ..  xThird ..     "," .. imgHeight
+    middleThird =     xThird .. ",0,"  .. (2*xThird) .. "," .. imgHeight
+    rightThird  = (2*xThird) .. ",0,"  .. imgWidth ..   "," .. imgHeight
 %>
-      <a href="$gridPageLink">
+
+      <!-- Image Map: -->
+      <map name="navmap" style="text-decoration:none; border:0;" id="imap">
+      <lr:Pagination>
+		  <lr:PreviousEnabled>
+              <!-- Previous: $link -->
+              <area coords="<%= leftThird %>" href="$link" alt=" Previous image " title=" Previous image " />
+		  </lr:PreviousEnabled>
+		  <lr:PreviousDisabled>
+              <!-- No Previous -->
+		  </lr:PreviousDisabled>
+             <area coords="<%= middleThird %>" href="$gridPageLink" alt=" Index page " title=" Index page " />
+		  <lr:NextEnabled>
+              <!-- Next: $link -->
+              <area coords="<%= rightThird %>" href="$link" alt=" Next image " title=" Next image " />
+		  </lr:NextEnabled>
+		  <lr:NextDisabled>
+              <!-- No Next -->
+		  </lr:NextDisabled>
+      </lr:Pagination>
+      </map>
+
 
       <div style="margin-left:<%= previewX %>px;">
 			<img src="images/large/<%= image.exportFilename %>.jpg"
 				class="previewFullImage preview"
 				id="previewImage"
-				alt="$image.metadata.title">
+				alt="$image.metadata.title"
+				usemap="#navmap" />
       </div>
-      </a>
       <div style="clear:both;"></div>
 
 	  <% --[[ Caption ]] %>
