@@ -1,0 +1,107 @@
+<%
+--[[ Define some variables to make locating other resources easier
+     firstPage was defined in our manifest.]]
+
+    local image = getImage( index )
+    local theRoot = ".."
+    local others = "."
+    local mySize = "large"
+%>
+
+<% --[[ Include the page header]] %>
+<%@ include file="head.html" %>
+
+
+  <% --[[ Main image area ]] %>
+
+  <div id="stage2">
+    <div id="previewFull" class="borderTopLeft borderBottomRight">
+	  <% --[[ Pagination section ]] %>
+    <div style="margin: 0px auto 1px auto; text-align:center; width:150px; height:35px;">
+      <div class="navBar">
+          <lr:Pagination>
+            <lr:PreviousEnabled>
+              <a href="$link"><img id="prev" class="navBar" width="31" height="31" alt="Up" title=" Previous Image " onmouseout="this.src=prev0.src" onmouseover="this.src=prev1.src" src="$theRoot/resources/misc/prev.gif" /></a>
+            </lr:PreviousEnabled>
+            <lr:PreviousDisabled>
+              <img src="../resources/misc/prev_disabled.gif" class="navBar" width="31" height="31" />
+            </lr:PreviousDisabled>
+              <a href="$gridPageLink"><img id="idx" class="navBar" width="31" height="31" alt="Up" title=" Index page " onmouseout="this.src=idx0.src" onmouseover="this.src=idx1.src" src="$theRoot/resources/misc/idx.gif" /></a>
+            <lr:NextEnabled>
+              <a href="$link"><img id="next" class="navBar" width="31" height="31" alt="Next" title=" Next Image " onmouseout="this.src=next0.src" onmouseover="this.src=next1.src" src="$theRoot/resources/misc/next.gif" /></a>
+            </lr:NextEnabled>
+            <lr:NextDisabled>
+              <img src="../resources/misc/next_disabled.gif" class="navBar"  width="31" height="31" />
+            </lr:NextDisabled>
+          </lr:Pagination>
+        </ul>
+      </div>
+    </div>
+<%
+	--[[
+		Logic for centering the image on the page and determining the 1/3 sections for the image-map.
+	]]
+
+    local imgWidth = image.renditions.large.width
+    local imgHeight = image.renditions.large.height
+
+    --[[ Calculate the left-margin: ]]
+    local imageBorderWidth = 0
+    if model.nonCSS.showImageBorderLarge then
+        imageBorderWidth = model.nonCSS.imageBorderWidth
+    end
+    local gridDefinedWidth = model.nonCSS.numCols * 161 + 1
+    local imagePlusBorderDefinedWith = 2 * imageBorderWidth + model.photoSizes.large.width + 30
+    local stageWidth = math.max( gridDefinedWidth, imagePlusBorderDefinedWith )
+    local previewX = math.floor( math.max( 15, ( stageWidth - imgWidth ) / 2 ) ) - imageBorderWidth
+
+    --[[ Calculate the coords for the three image thirds: ]]
+    xThird = math.floor(imgWidth/3)
+    leftThird   =          "0,0,"      ..  xThird ..     "," .. imgHeight
+    middleThird =     xThird .. ",0,"  .. (2*xThird) .. "," .. imgHeight
+    rightThird  = (2*xThird) .. ",0,"  .. imgWidth ..   "," .. imgHeight
+%>
+
+      <!-- Image Map: -->
+      <map name="navmap" style="text-decoration:none; border:0;" id="imap">
+      <lr:Pagination>
+		  <lr:PreviousEnabled>
+              <!-- Previous: $link -->
+              <area coords="<%= leftThird %>" href="$link" alt=" Previous image " title=" Previous image " />
+		  </lr:PreviousEnabled>
+		  <lr:PreviousDisabled>
+              <!-- No Previous -->
+		  </lr:PreviousDisabled>
+             <area coords="<%= middleThird %>" href="$gridPageLink" alt=" Index page " title=" Index page " />
+		  <lr:NextEnabled>
+              <!-- Next: $link -->
+              <area coords="<%= rightThird %>" href="$link" alt=" Next image " title=" Next image " />
+		  </lr:NextEnabled>
+		  <lr:NextDisabled>
+              <!-- No Next -->
+		  </lr:NextDisabled>
+      </lr:Pagination>
+      </map>
+
+
+      <div style="margin-left:<%= previewX %>px;">
+			<img src="images/large/<%= image.exportFilename %>.jpg"
+				class="previewFullImage preview"
+				id="previewImage"
+				alt="$image.metadata.title"
+				usemap="#navmap" />
+      </div>
+      <div style="clear:both;"></div>
+
+	  <% --[[ Caption ]] %>
+
+      <div id="detailCaption" class="detailText">
+        $image.metadata.description
+      </div>
+    </div>
+  </div>
+  <div class="clear">
+  </div>
+
+<% --[[ Include the page footer]] %>
+<%@ include file="foot.html" %>

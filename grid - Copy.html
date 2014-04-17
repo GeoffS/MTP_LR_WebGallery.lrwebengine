@@ -1,0 +1,77 @@
+<%
+--[[ Define some variables to make locating other resources easier
+     firstPage was defined in our manifest.]]
+
+    local others = "content"
+    local theRoot = "."
+    local mySize = "thumb"
+
+    local elemWidth = 134
+    local elemHeight = 134
+    local elemSpacing = 5
+    local elemsAcross = 5
+    local elemsDown = 4
+
+    local gridAreaWidth  = elemsAcross*(elemWidth+elemSpacing)+elemSpacing
+    local gridAreaHeight = elemsDown*(elemHeight+elemSpacing)+elemSpacing
+%>
+
+<% --[[ Include the page header]] %>
+<%@ include file="head.html" %>
+
+  <% --[[ Main grid area ]] %>
+
+  <div id="stage">
+    <div id="index" class="gridContainer">
+      <lr:ThumbnailGrid>
+
+		<% --[[ The grid ]] %>
+
+        <lr:GridPhotoCell>
+          <div class="gridElem" style="margin-lef:<%= math.floor((elemWidth-image.width)/2) %>;margin-right:<%= math.floor((elemHeight-image.height)/2) %>;">
+            <!-- Image width: <%= image.renditions.thumb.width  %>, Image height: <%= image.renditions.thumb.height  %> -->
+            <a href="$others/<%= image.exportFilename %>_large.html">
+            <img src="$others/images/thumb/<%= image.exportFilename %>.jpg" id="ID<%= image.imageID %>_thumb" alt="" class="indexGrid" />
+            </a></div>
+        </lr:GridPhotoCell>
+        <lr:GridRowEnd>
+          <div class="clear">
+          </div>
+        </lr:GridRowEnd>
+      </lr:ThumbnailGrid>
+    </div>
+  </div>
+  <div class="clear">
+  </div>
+
+  <% --[[ Pagination section ]] %>
+
+<% if numGridPages > 1 then %>
+  <div class="pagination">
+    <ul>
+      <lr:Pagination>
+        <lr:CurrentPage>
+          <li class="current textColor">$page</li>
+        </lr:CurrentPage>
+        <lr:OtherPages>
+          <li class="textColor"> <a href="$link">$page</a> </li>
+        </lr:OtherPages>
+		<lr:PreviousEnabled>
+	      <li class="previous textColor"> <a class="paginationLinks" href="$link"><%= LOC "$$$/AgWPG/Templates/HTML/output/Previous=Previous" %></a> </li>
+		</lr:PreviousEnabled>
+		<lr:PreviousDisabled>
+	      <li class="previous textColor"> <%= LOC "$$$/AgWPG/Templates/HTML/output/Previous=Previous" %> </li>
+		</lr:PreviousDisabled>
+		<lr:NextEnabled>
+	      <li class="next textColor"> <a class="paginationLinks" href="$link"><%= LOC "$$$/AgWPG/Templates/HTML/output/Next=Next" %></a> </li>
+		</lr:NextEnabled>
+		<lr:NextDisabled>
+	      <li class="next textColor"> <%= LOC "$$$/AgWPG/Templates/HTML/output/Next=Next" %> </li>
+		</lr:NextDisabled>
+      </lr:Pagination>
+    </ul>
+  </div>
+<% end %>
+
+<% --[[ Include the page footer]] %>
+<%@ include file="foot.html" %>
