@@ -11,14 +11,13 @@ AddResources {
 }
 
 AddPhotoPages {
-	template='detail.html',
-	variant='_large',
-	destination="content",
-}
-
-AddPhotoPages {
 	template='basic.html',
 	variant='_basic',
+	destination="content",
+}
+AddPhotoPages {
+	template='detail.html',
+	variant='_large',
 	destination="content",
 }
 

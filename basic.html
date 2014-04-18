@@ -34,16 +34,24 @@
 	<map name="navmap" style="text-decoration:none; border:0;" id="imap">
 	<lr:Pagination>
 	  <lr:PreviousEnabled>
-		  <!-- Previous: $link -->
-		  <area coords="<%= leftThird %>" href="$link" alt=" Previous image " title=" Previous image " />
+	      <%
+	      prevImage = getImage(index-1)
+	      prevPageLink = prevImage.exportFilename .. "_basic.html"
+	      %>
+		  <!-- Previous: $prevPageLink -->
+		  <area coords="<%= leftThird %>" href="$prevPageLink" alt=" Previous image " title=" Previous image " />
 	  </lr:PreviousEnabled>
 	  <lr:PreviousDisabled>
 		  <!-- No Previous -->
 	  </lr:PreviousDisabled>
 		 <area coords="<%= middleThird %>" href="$gridPageLink" alt=" Index page " title=" Index page " />
 	  <lr:NextEnabled>
-		  <!-- Next: $link -->
-		  <area coords="<%= rightThird %>" href="$link" alt=" Next image " title=" Next image " />
+	      <%
+             nextImage = getImage(index+1)
+             nextPageLink = nextImage.exportFilename .. "_basic.html"
+	      %>
+		  <!-- Next: $nextPageLink -->
+		  <area coords="<%= rightThird %>" href="$nextPageLink" alt=" Next image " title=" Next image " />
 	  </lr:NextEnabled>
 	  <lr:NextDisabled>
 		  <!-- No Next -->
