@@ -24,6 +24,7 @@ return {
 	supportsLiveUpdate = false,
 
 	model = {
+		["mtp.copyright"] = "Copyright &copy;2014 - Geoff Sobering, All Rights Reserved",
 		["photoSizes.large.directory"] = "images/large",
 		["photoSizes.large.cropMode"] = "normal",
 		["photoSizes.large.height"] = function() return photoSizes.large.width end,
@@ -40,6 +41,7 @@ return {
 		["photoSizes.tracking"] = false,
 		["appearance.body.background-color"] = "#13509f",
 		["appearance.body.cssID"] = "body",
+	--[[
 		["appearance.borderBottom.border-bottom"] = function()
 			return string.format( "5px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
 		end,
@@ -66,6 +68,7 @@ return {
 			return string.format( "5px solid %s", LrColorToWebColor( nonCSS.cellBorderColor ) ) 
 		end,
 		["appearance.borderTopLeft.cssID"] = ".borderTopLeft",
+	]]
 		["appearance.caption.color"] = "#F0F0F0",
 		["appearance.caption.cssID"] = ".caption",
 		["appearance.contact.cssID"] = "#stage, #stage2",

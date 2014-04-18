@@ -54,9 +54,6 @@ a:link a:visited a:hover, a:active {
 }
 
 /* COLLECTION HEADER */
-#collectionHeader {
-	margin-bottom: 7px;
-}
 #collectionHeader h1 {
 	font-size: 14px;
 }
@@ -73,7 +70,7 @@ a:link a:visited a:hover, a:active {
 }
 
 #stage, #stage2 {
-	padding-bottom: 10px;
+	padding-bottom: 3px;
 }
 
 /* PREVIEW FULL */
@@ -112,7 +109,7 @@ width: 804px /*5 x CellWidth + 4px Gap*/
 }
 
 #detailCaption {
-	margin: 5px;
+	margin: 5px 0px 0px 0px;
 	text-align: center;
 }
 
@@ -122,8 +119,7 @@ width: 804px /*5 x CellWidth + 4px Gap*/
 }
 
 /* Moving Target Photos */
-div.gridElem
-{
+div.gridElem {
 	float:left;
 	width:134px;
 	height:134px;
@@ -131,14 +127,22 @@ div.gridElem
 	background-size:134px 134px;
 	background-repeat:no-repeat;
 }
-img.indexGrid
-{
+img.indexGrid {
 	border-style:solid;
 	border-width:1px;
 	border-color:#c0c0c0;
 }
-img.indexGrid:hover
-{
+img.indexGrid:hover {
 	border-color:#ffffff;
+}
+div.detailFooter {
+	font-size: 10px;
+	margin: 0px auto 0px auto;
+	text-align:center;
+}
+div.gridFooter {
+	font-size: 10px;
+	margin: 0px auto 0px auto;
+	text-align:center;
 }
 
