@@ -60,6 +60,9 @@
     leftThird   =          "0,0,"      ..  xThird ..     "," .. imgHeight
     middleThird =     xThird .. ",0,"  .. (2*xThird) .. "," .. imgHeight
     rightThird  = (2*xThird) .. ",0,"  .. imgWidth ..   "," .. imgHeight
+
+    imageURL = "images/large/" .. image.exportFilename .. ".jpg"
+    basicPageURL = image.exportFilename .. "_basic.html"
 %>
 
       <!-- Image Map: -->
@@ -85,7 +88,7 @@
 
 
       <div style="margin-left:<%= previewX %>px;">
-			<img src="images/large/<%= image.exportFilename %>.jpg"
+			<img src="$imageURL"
 				class="previewFullImage preview"
 				id="previewImage"
 				alt="$image.metadata.title"
@@ -96,7 +99,8 @@
 	  <% --[[ Caption ]] %>
 
       <div id="detailCaption" class="detailText">
-        $image.metadata.description
+        <a href="$basicPageURL" title="Goto Basic Image Page">$image.metadata.description</a>
+        <a href="$imageURL" title="Download Image" style="float:right; margin: 0 20px 0 auto;"><img src="../resources/misc/download.gif" width="17" height="17" alt="Download Image" /></a>
       </div>
     </div>
   </div>
