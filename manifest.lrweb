@@ -11,8 +11,8 @@ AddResources {
 }
 
 AddPhotoPages {
-	template='basic.html',
-	variant='_basic',
+	template='tablet.html',
+	variant='_tablet',
 	destination="content",
 }
 AddPhotoPages {

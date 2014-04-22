@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+<meta name="Keywords" content="" >
+<meta name="generator" content="Adobe Photoshop Lightroom with the MTP 2014 HTML Web Gallery Engine" >
+<%
+--[[ Define some variables to make locating other resources easier. ]]
+
+    local image = getImage( index )
+    local theRoot = ".."
+    local others = "."
+    local mySize = "tablet"
+
+    local imgWidth = image.renditions.large.width
+	local imgHeight = image.renditions.large.height
+
+	--[[ Calculate the coords for the three image areas: ]]
+	leftArea   = "0,0," ..  math.floor(imgWidth*0.2) .. "," .. imgHeight
+	middleArea = math.floor(imgWidth*0.4) .. ",0," .. math.floor(imgWidth*0.6) .. "," .. math.floor(imgHeight*0.2)
+    rightArea  = math.floor(imgWidth*0.8) .. ",0,"  .. imgWidth ..   "," .. imgHeight
+%>
+<script>
+function setImageScaling() {
+	var imgWidth = <%= imgWidth %>;
+	var imgHeight = <%= imgHeight %>;
+
+	var imgElem = document.getElementById("image");
+
+	if( navigator.userAgent.indexOf('Android') != -1 || navigator.userAgent.indexOf('android') != -1 ) {
+		var imgShort = Math.min(imgWidth, imgHeight);
+		var imgLong = Math.max(imgWidth, imgHeight);
+
+		var winShort = Math.min(window.outerWidth, window.outerHeight);
+		var winLong = Math.max(window.outerWidth, window.outerHeight);
+
+		var imgScale = Math.min(winShort/imgShort, winLong/imgLong)
+
+		var minRatioStyle = Math.floor(imgScale*100.0)+"%";
+
+		imgElem.style.width=Math.floor(imgScale*imgWidth)+"px";
+		imgElem.style.height=Math.floor(imgScale*imgHeight)+"px";
+		document.body.style.backgroundColor = "black";
+
+		scaledHeight = Math.floor(imgHeight*imgScale);
+		scaledImgWidth = imgWidth*imgScale;
+		var prev = document.getElementById("prev");
+		if(prev != null) prev.setAttribute("coords", "0,0,"+Math.floor(scaledImgWidth*0.2)+","+scaledHeight);
+		document.getElementById("index").setAttribute("coords", Math.floor(scaledImgWidth*0.4)+",0,"+Math.floor(scaledImgWidth*0.6)+","+Math.floor(scaledHeight*0.2));
+		var next = document.getElementById("next");
+		if(next != null) next.setAttribute("coords", Math.floor(scaledImgWidth*0.8)+",0,"+Math.floor(scaledImgWidth)+","+scaledHeight);
+	} else {
+		imgElem.style.borderStyle="solid";
+		imgElem.style.borderWidth="25px";
+		imgElem.style.borderColor="black";
+		imgElem.style.borderRadius="35px";
+	}
+} // setImageScaling()
+</script>
+<title>$image.metadata.description</title>
+</head>
+<body style="margin:0; background-color:#505050; color:white;" onload="setImageScaling()">
+	<!-- Image Map: -->
+	<map name="navmap" style="text-decoration:none; border:0;" id="imap">
+	<lr:Pagination>
+	  <lr:PreviousEnabled>
+	      <%
+	      prevImage = getImage(index-1)
+	      prevPageLink = prevImage.exportFilename .. "_" .. mySize .. ".html"
+	      %>
+		  <!-- Previous: $prevPageLink -->
+		  <area id="prev" coords="<%= leftArea %>" href="$prevPageLink" alt=" Previous image " title=" Previous image " />
+	  </lr:PreviousEnabled>
+	  <lr:PreviousDisabled>
+		  <!-- No Previous -->
+	  </lr:PreviousDisabled>
+		 <area id="index"coords="<%= middleArea %>" href="$gridPageLink" alt=" Index page " title=" Index page " />
+	  <lr:NextEnabled>
+	      <%
+             nextImage = getImage(index+1)
+             nextPageLink = nextImage.exportFilename .. "_" .. mySize .. ".html"
+	      %>
+		  <!-- Next: $nextPageLink -->
+		  <area id="next" coords="<%= rightArea %>" href="$nextPageLink" alt=" Next image " title=" Next image " />
+	  </lr:NextEnabled>
+	  <lr:NextDisabled>
+		  <!-- No Next -->
+	  </lr:NextDisabled>
+	</lr:Pagination>
+	</map>
+
+    <img src="images/large/<%= image.exportFilename %>.jpg"
+    		id="image"
+			alt="$image.exportFilename"
+			title="$image.exportFilename"
+			usemap="#navmap"
+			style="display:block; margin:0 auto 0 auto;"/>
+</body>
+</html>
