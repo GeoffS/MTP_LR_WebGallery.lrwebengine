@@ -127,7 +127,7 @@ return {
 		end,
 		["appearance.wrapper_thumb.cssID"] = "#wrapper_thumb",
 		["appearance.wrapper_thumb.width"] = function()
-			return string.format( "%dpx", nonCSS.numCols * 165 + 5 ) 
+			return string.format( "%dpx", nonCSS.numCols * (134+5) ) 
 		end,
 		["lightroomApplication.identityPlateExport"] = "(main)",
 		["lightroomApplication.jpegQuality"] = 85,
