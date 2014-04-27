@@ -83,10 +83,11 @@ return {
 		["appearance.logo.cssID"] = ".logo",
 		["appearance.logo.display"] = true,
 		["appearance.pagination.cssID"] = ".paginationLinks, .pagination, #liveUpdatePagination",
+		["appearance.preview.cssID"] = ".preview",
+		["appearance.preview.border-top-width"] = "0",
 		["appearance.preview.border"] = function()
 			return nonCSS.showImageBorderLarge and string.format( "%dpx solid %s", nonCSS.imageBorderWidth, LrColorToWebColor( nonCSS.largeImageBorderColor ) ) or "none" 
 		end,
-		["appearance.preview.cssID"] = ".preview",
 		["appearance.previewFull.background-color"] = "#13509f",
 		["appearance.previewFull.cssID"] = "#previewFull",
 		["appearance.previewFull.width"] = function()
@@ -154,7 +155,7 @@ return {
 		["nonCSS.dropShadows"] = false,
 		["nonCSS.identityPlateAbsolutePath"] = "",
 		["nonCSS.imageBase"] = "content",
-		["nonCSS.imageBorderWidth"] = 15,
+		["nonCSS.imageBorderWidth"] = 37,
 		["nonCSS.largeImageBorderColor"] = "#000000",
 		["nonCSS.numCols"] = 5,
 		["nonCSS.numRows"] = 50,

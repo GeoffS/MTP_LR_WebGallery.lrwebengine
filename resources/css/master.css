@@ -122,7 +122,6 @@ width: 804px /*5 x CellWidth + 4px Gap*/
 }
 
 .preview {
-	border: 15px solid black;
 	position: relative;
 }
 
