@@ -83,16 +83,18 @@ return {
 		["appearance.logo.cssID"] = ".logo",
 		["appearance.logo.display"] = true,
 		["appearance.pagination.cssID"] = ".paginationLinks, .pagination, #liveUpdatePagination",
+		--[[
 		["appearance.preview.cssID"] = ".preview",
 		["appearance.preview.border-top-width"] = "0",
 		["appearance.preview.border"] = function()
 			return nonCSS.showImageBorderLarge and string.format( "%dpx solid %s", nonCSS.imageBorderWidth, LrColorToWebColor( nonCSS.largeImageBorderColor ) ) or "none" 
 		end,
+		]]
 		["appearance.previewFull.background-color"] = "#13509f",
 		["appearance.previewFull.cssID"] = "#previewFull",
-		["appearance.previewFull.width"] = function()
+		--[[ ["appearance.previewFull.width"] = function()
 			return string.format( "%dpx", math.max( nonCSS.numCols * 160 + 2, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
-		end,
+		end, ]]
 		["appearance.liveUpdateImageSize.cssID"] = "#previewImage",
 		["appearance.liveUpdateImageSize.maxSize"] = function()	return photoSizes.large.width end,
 		["appearance.siteTitle.cssID"] = "#liveUpdateSiteTitle",
@@ -101,9 +103,9 @@ return {
 		end,
 		["appearance.sitetitle.cssID"] = "#sitetitle",
 		["appearance.stage2.cssID"] = "#stage2",
-		["appearance.stage2.width"] = function()
+		--[[ ["appearance.stage2.width"] = function()
 			return string.format( "%dpx", math.max( nonCSS.numCols * 165 + 5, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
-		end,
+		end, ]]
 		["appearance.stage.cssID"] = "#stage",
 		["appearance.stage.width"] = function()
 			return string.format( "%dpx", nonCSS.numCols * 165 + 5 ) 
@@ -123,9 +125,11 @@ return {
 			return  nonCSS.dropShadows == false and "none" or nil 
 		end,
 		["appearance.wrapper_large.cssID"] = "#wrapper_large",
+		--[[ 
 		["appearance.wrapper_large.width"] = function()
-			return string.format( "%dpx", math.max( nonCSS.numCols * 165 + 5, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) ) 
-		end,
+			return string.format( "%dpx", math.max( nonCSS.numCols * 165 + 5, ( nonCSS.showImageBorderLarge and nonCSS.imageBorderWidth * 2 or 0 ) + photoSizes.large.width + 30 ) )
+		end, 
+		]]
 		["appearance.wrapper_thumb.cssID"] = "#wrapper_thumb",
 		["appearance.wrapper_thumb.width"] = function()
 			return string.format( "%dpx", nonCSS.numCols * (134+5) ) 
