@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+
+<% --[[ HTML page metadata and stylesheets ]] %>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<meta name="Keywords" content="" >
+<meta name="generator" content="Adobe Photoshop Lightroom with the MTP 2014 HTML Web Gallery Engine" >
+
+
+<script>
+<%
+--[[ Define some variables to make locating other resources easier. ]]
+	write("var numImages = " .. numImages .. "\n")
+	write("var imageNames = [\"" .. getImage(1).exportFilename .. ".jpg\"")
+	for i=2, numImages, 1 do
+		write(", \"" .. getImage(i).exportFilename .. ".jpg\"")
+	end
+	write("]\n")
+	write("var imageWidths = [" .. getImage(1).renditions.large.width)
+		for i=2, numImages, 1 do
+			write("," .. getImage(i).renditions.large.width)
+		end
+	write("]\n")
+	write("var imageHeights = [" .. getImage(1).renditions.large.height)
+			for i=2, numImages, 1 do
+				write("," .. getImage(i).renditions.large.height)
+			end
+	write("]\n")
+%>
+
+function initPage() {
+	initImageNum = parseInt(location.search.substring(1));
+	if( initImageNum == "" ) initImageNum = 1;
+	loadImage(initImageNum);
+}
+
+var imageIndex = -1;
+
+function loadImage( imageNum ){
+	imageIndex = imageNum - 1;
+
+	var imageName = imageNames[imageIndex];
+	var fullImageName = "content/images/large/"+imageNames[imageIndex];
+	var imgWidth = imageWidths[imageIndex];
+	var imgHeight = imageHeights[imageIndex];
+
+	var imgElem = document.getElementById("image");
+
+	imgElem.setAttribute("alt", imageName);
+	imgElem.setAttribute("title", imageName);
+	imgElem.setAttribute("src", fullImageName);
+
+	if( true ) { //navigator.userAgent.indexOf('Android') != -1 || navigator.userAgent.indexOf('android') != -1 ) {
+		var imgShort = Math.min(imgWidth, imgHeight);
+		var imgLong = Math.max(imgWidth, imgHeight);
+
+		var winShort = Math.min(window.outerWidth, window.outerHeight);
+		var winLong = Math.max(window.outerWidth, window.outerHeight);
+
+		var imgScale = Math.min(winShort/imgShort, winLong/imgLong);
+
+		var minRatioStyle = Math.floor(imgScale*100.0)+"%";
+
+		imgElem.style.width=Math.floor(imgScale*imgWidth)+"px";
+		imgElem.style.height=Math.floor(imgScale*imgHeight)+"px";
+		document.body.style.backgroundColor = "black";
+
+		scaledHeight = Math.floor(imgHeight*imgScale);
+		scaledImgWidth = imgWidth*imgScale;
+
+		var prev = document.getElementById("prev");
+		if(imageIndex > 0) {
+			prev.setAttribute("coords", "0,0,"+Math.floor(scaledImgWidth*0.2)+","+scaledHeight);
+			prev.setAttribute("onclick", "loadImage("+(imageNum-1)+")");
+		} else {
+			prev.setAttribute("coords", "0,0,1,1");
+			prev.removeAttribute("onclick");
+		}
+		document.getElementById("index").setAttribute("coords", Math.floor(scaledImgWidth*0.4)+",0,"+Math.floor(scaledImgWidth*0.6)+","+Math.floor(scaledHeight*0.2));
+		var next = document.getElementById("next");
+		if(imageIndex < (numImages-1)) {
+			next.setAttribute("coords", Math.floor(scaledImgWidth*0.8)+",0,"+Math.floor(scaledImgWidth)+","+scaledHeight);
+			next.setAttribute("onclick", "loadImage("+(imageNum+1)+")");
+		} else {
+			next.setAttribute("coords", "0,0,1,1");
+			next.removeAttribute("onclick");
+		}
+	} else {
+		imgElem.style.width=imgWidth+"px";
+		imgElem.style.height=imgHeight+"px";
+		imgElem.style.borderStyle="solid";
+		imgElem.style.borderWidth="25px";
+		imgElem.style.borderColor="black";
+		imgElem.style.borderRadius="35px";
+	}
+} // loadImage()
+</script>
+</head>
+<html>
+<body style="margin:0; background-color:#505050; color:white;" onload="initPage()">
+	<map name="navmap" style="text-decoration:none; border:0;" id="imap">
+		<area id="prev"  alt=" Previous image " title=" Previous image " />
+		<area id="index" alt=" Index page "     title=" Index page "     href="index.html" />
+		<area id="next"  alt=" Next image "     title=" Next image "     />
+	</map>
+    <img id="image"	usemap="#navmap" style="display:block; margin:0 auto 0 auto;" />
+</body>
+</html>

@@ -20,11 +20,14 @@ AddPhotoPages {
 	variant='_large',
 	destination="content",
 }
-
 AddGridPages {
 	template='grid.html',
 	rows=model.nonCSS.numRows,
 	columns=model.nonCSS.numCols,
+}
+AddPage {
+	filename = "index_tablet.html",
+	template = "tabletjs.html",
 }
 AddCustomCSS {
 	filename='content/custom.css',
