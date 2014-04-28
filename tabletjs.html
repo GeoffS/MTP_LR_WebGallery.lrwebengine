@@ -31,8 +31,11 @@
 %>
 
 function initPage() {
-	initImageNum = parseInt(location.search.substring(1));
-	if( initImageNum == "" ) initImageNum = 1;
+	if( location.search.substring(1) == "" ) {
+		initImageNum = 1;
+	} else {
+		initImageNum = parseInt(location.search.substring(1));
+	}
 	loadImage(initImageNum);
 }
 
