@@ -11,41 +11,57 @@
 
 <script>
 <%
---[[ Define some variables to make locating other resources easier. ]]
-	write("var numImages = " .. numImages .. "\n")
-	write("var imageNames = [\"" .. getImage(1).exportFilename .. ".jpg\"")
+	write("var maxIndex = " .. numImages-1 .. ";\n")
+	write("var imageNames = [\"" .. getImage(1).exportFilename .. "\"")
 	for i=2, numImages, 1 do
-		write(", \"" .. getImage(i).exportFilename .. ".jpg\"")
+		write(", \"" .. getImage(i).exportFilename .. "\"")
 	end
-	write("]\n")
+	write("];\n")
 	write("var imageWidths = [" .. getImage(1).renditions.large.width)
 		for i=2, numImages, 1 do
 			write("," .. getImage(i).renditions.large.width)
 		end
-	write("]\n")
+	write("];\n")
 	write("var imageHeights = [" .. getImage(1).renditions.large.height)
 			for i=2, numImages, 1 do
 				write("," .. getImage(i).renditions.large.height)
 			end
-	write("]\n")
+	write("];\n")
 %>
 
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var tabletScalingOverride = false;
+
+function useTabletScaling() {
+	//return true;
+	var isAndroid = navigator.userAgent.indexOf('Android') != -1 || navigator.userAgent.indexOf('android') != -1;
+	return tabletScalingOverride || isAndroid;
+}
+
 function initPage() {
-	if( location.search.substring(1) == "" ) {
-		initImageNum = 1;
+	initImageName = getParameterByName('image');
+	tabletScalingOverride = getParameterByName('isTablet') == 'true';
+	if( initImageName == "" ) {
+		initImageNum = 0;
 	} else {
-		initImageNum = parseInt(location.search.substring(1));
+		initImageNum = imageNames.indexOf(initImageName);
 	}
 	loadImage(initImageNum);
 }
 
-var imageIndex = -1;
+function loadImage( imageIndex ){
 
-function loadImage( imageNum ){
-	imageIndex = imageNum - 1;
+	if( imageIndex < 0 ) imageIndex = 0;
+	else if(imageIndex > (maxIndex)) imageIndex == maxIndex;
 
 	var imageName = imageNames[imageIndex];
-	var fullImageName = "content/images/large/"+imageNames[imageIndex];
+	var fullImageName = "content/images/large/"+imageName+".jpg";
 	var imgWidth = imageWidths[imageIndex];
 	var imgHeight = imageHeights[imageIndex];
 
@@ -55,7 +71,7 @@ function loadImage( imageNum ){
 	imgElem.setAttribute("title", imageName);
 	imgElem.setAttribute("src", fullImageName);
 
-	if( true ) { //navigator.userAgent.indexOf('Android') != -1 || navigator.userAgent.indexOf('android') != -1 ) {
+	if( useTabletScaling() ) {
 		var imgShort = Math.min(imgWidth, imgHeight);
 		var imgLong = Math.max(imgWidth, imgHeight);
 
@@ -64,40 +80,40 @@ function loadImage( imageNum ){
 
 		var imgScale = Math.min(winShort/imgShort, winLong/imgLong);
 
-		var minRatioStyle = Math.floor(imgScale*100.0)+"%";
-
-		imgElem.style.width=Math.floor(imgScale*imgWidth)+"px";
-		imgElem.style.height=Math.floor(imgScale*imgHeight)+"px";
 		document.body.style.backgroundColor = "black";
 
-		scaledHeight = Math.floor(imgHeight*imgScale);
-		scaledImgWidth = imgWidth*imgScale;
-
-		var prev = document.getElementById("prev");
-		if(imageIndex > 0) {
-			prev.setAttribute("coords", "0,0,"+Math.floor(scaledImgWidth*0.2)+","+scaledHeight);
-			prev.setAttribute("onclick", "loadImage("+(imageNum-1)+")");
-		} else {
-			prev.setAttribute("coords", "0,0,1,1");
-			prev.removeAttribute("onclick");
-		}
-		document.getElementById("index").setAttribute("coords", Math.floor(scaledImgWidth*0.4)+",0,"+Math.floor(scaledImgWidth*0.6)+","+Math.floor(scaledHeight*0.2));
-		var next = document.getElementById("next");
-		if(imageIndex < (numImages-1)) {
-			next.setAttribute("coords", Math.floor(scaledImgWidth*0.8)+",0,"+Math.floor(scaledImgWidth)+","+scaledHeight);
-			next.setAttribute("onclick", "loadImage("+(imageNum+1)+")");
-		} else {
-			next.setAttribute("coords", "0,0,1,1");
-			next.removeAttribute("onclick");
-		}
 	} else {
-		imgElem.style.width=imgWidth+"px";
-		imgElem.style.height=imgHeight+"px";
+		var imgScale = 1;
 		imgElem.style.borderStyle="solid";
 		imgElem.style.borderWidth="25px";
 		imgElem.style.borderColor="black";
 		imgElem.style.borderRadius="35px";
 	}
+
+	<% --[[ Use imgScale to create the height and width style values and the navigation image-map. ]] %>
+	imgElem.style.width=Math.floor(imgScale*imgWidth)+"px";
+	imgElem.style.height=Math.floor(imgScale*imgHeight)+"px";
+
+	scaledHeight = Math.floor(imgHeight*imgScale);
+	scaledImgWidth = imgWidth*imgScale;
+
+	var prev = document.getElementById("prev");
+	if(imageIndex > 0) {
+		prev.setAttribute("coords", "0,0,"+Math.floor(scaledImgWidth*0.2)+","+scaledHeight);
+		prev.setAttribute("onclick", "loadImage("+(imageIndex-1)+")");
+	} else {
+		prev.setAttribute("coords", "0,0,1,1");
+		prev.removeAttribute("onclick");
+	}
+	document.getElementById("index").setAttribute("coords", Math.floor(scaledImgWidth*0.4)+",0,"+Math.floor(scaledImgWidth*0.6)+","+Math.floor(scaledHeight*0.2));
+	var next = document.getElementById("next");
+	if(imageIndex < (maxIndex)) {
+		next.setAttribute("coords", Math.floor(scaledImgWidth*0.8)+",0,"+Math.floor(scaledImgWidth)+","+scaledHeight);
+		next.setAttribute("onclick", "loadImage("+(imageIndex+1)+")");
+	} else {
+		next.setAttribute("coords", "0,0,1,1");
+		next.removeAttribute("onclick");
+}
 } // loadImage()
 </script>
 </head>

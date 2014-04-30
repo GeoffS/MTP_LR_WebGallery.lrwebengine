@@ -33,7 +33,7 @@
     rightThird  = (2*xThird) .. ",0,"  .. imgWidth ..   "," .. imgHeight
 
     imageURL = "images/large/" .. image.exportFilename .. ".jpg"
-    basicPageURL = image.exportFilename .. "_tablet.html"
+    basicPageURL = "../index_tablet.html?image=" .. image.exportFilename
 %>
 
 <div id="wrapper_large" style="width:<%= imagePlusBorderDefinedWith %>px;">
